@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nordic Motion — Scandinavian Running Gear & AI Concierge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Фирменная серо-синяя палитра Nordic Motion (#5B667B / #2B313B / #16181D) */
+    body {
+      background-color: #16181D !important;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(91, 102, 123, 0.22) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(108, 122, 147, 0.18) 0%, transparent 50%) !important;
+      color: #F1F5F9;
+      margin: 0;
+    }
+
+    /* Интерактивная большая кнопка запуска ИИ */
+    .ai-hero-btn {
+      background: linear-gradient(135deg, #5B667B 0%, #414958 100%);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 10px 30px -5px rgba(22, 24, 29, 0.8), 0 0 20px rgba(91, 102, 123, 0.25);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Эффект при наведении мышки (смена цвета + свечение + подъем) */
+    .ai-hero-btn:hover {
+      background: linear-gradient(135deg, #6E82A3 0%, #4B6387 50%, #3B5278 100%);
+      border-color: rgba(186, 207, 240, 0.8);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 45px -10px rgba(59, 82, 120, 0.65), 0 0 35px rgba(110, 130, 163, 0.55);
+    }
+
+    .ai-hero-btn:active {
+      transform: translateY(-1px) scale(0.99);
+    }
+
+    .ai-hero-btn:hover .btn-arrow {
+      transform: translateX(6px);
+    }
+
+    /* Стеклянные карточки в серо-синем стиле */
+    .nordic-card {
+      background: linear-gradient(180deg, rgba(43, 49, 59, 0.75) 0%, rgba(26, 31, 44, 0.85) 100%);
+      border: 1px solid rgba(108, 122, 147, 0.28);
+      backdrop-filter: blur(12px);
+    }
+
+    .shoe-card {
+      transition: all 0.3s ease;
+    }
+    .shoe-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(108, 122, 147, 0.65);
+      box-shadow: 0 16px 35px -10px rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased selection:bg-[#5B667B] selection:text-white">
+
+  <!-- ШАПКА САЙТА С ФИРМЕННОЙ ИКОНКОЙ ПРОЕКТА -->
+  <header class="sticky top-0 z-30 border-b border-[#2B313B] bg-[#16181D]/85 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      
+      <!-- Логотип Nordic Motion (Горы + Кроссовок + Монограмма NM) -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <div class="w-12 h-12 rounded-xl bg-[#1A1F2C] border border-[#5B667B]/60 flex items-center justify-center shadow-lg group-hover:border-[#8A99B5] transition">
+          <svg viewBox="0 0 100 100" class="w-9 h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Горы справа сверху -->
+            <path d="M52 38L66 16L82 40M66 16L63 29L68 34" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M74 28L80 20L90 36" stroke="#5B667B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Силуэт кроссовка и линии скорости слева -->
+            <path d="M24 44C22 38 28 28 33 24C35 23 37 26 39 29C42 32 48 31 52 31C55 31 57 35 55 39" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14 48H26M18 54H28" stroke="#5B667B" stroke-width="3" stroke-linecap="round"/>
+            <!-- Монограмма NM -->
+            <path d="M26 74L36 44L50 72L60 44L70 72L82 44" stroke="#94A3B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Надпись NORDIC -->
+            <text x="50" y="91" text-anchor="middle" fill="#8A99B5" font-size="13" font-weight="800" letter-spacing="2.5" font-family="sans-serif">NORDIC</text>
+          </svg>
+        </div>
+        <div>
+          <span class="font-extrabold text-lg tracking-wider block leading-none text-white">NORDIC MOTION</span>
+          <span class="text-[11px] uppercase tracking-widest text-[#8A99B5]">Scandinavian Running Lab</span>
+        </div>
+      </a>
+
+      <!-- Навигация -->
+      <nav class="hidden md:flex items-center gap-8 text-sm text-[#94A3B8]">
+        <a href="#lineup" class="hover:text-white transition">Running Lineup</a>
+        <a href="#ai-concierge" class="hover:text-white transition">AI Sizing Concierge</a>
+        <a href="#ai-concierge" class="hover:text-white transition">Order Tracking</a>
+      </nav>
+
+      <!-- Статус демо -->
+      <a href="#ai-concierge" class="text-xs bg-[#2B313B] hover:bg-[#414958] text-[#CBD5E1] border border-[#5B667B]/50 px-3.5 py-2 rounded-full flex items-center gap-2 transition">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Interactive AI Demo
+      </a>
+    </div>
+  </header>
+
+  <!-- ЭКРАН 1: ВОВЛЕКАЮЩАЯ ВИТРИНА БРЕНДА -->
+  <section class="max-w-6xl mx-auto px-6 pt-14 pb-12">
+    <div class="grid md:grid-cols-12 gap-10 items-center">
+      
+      <!-- Левая колонка: Оффер бренда -->
+      <div class="md:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2B313B] border border-[#5B667B]/40 text-xs uppercase tracking-widest text-[#94A3B8] font-semibold">
+          <span>2026 Performance Collection</span>
+          <span class="text-[#5B667B]">•</span>
+          <span>EU 40–45</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+          Engineered for <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#CBD5E1] via-[#8A99B5] to-[#5B667B]">
+            Nordic Endurance.
+          </span>
+        </h1>
+
+        <p class="text-[#94A3B8] text-lg leading-relaxed max-w-xl">
+          Minimalist Scandinavian running footwear crafted for daily road miles, fast tempo sessions, and rugged forest trails. Not sure about your EU size or which model fits your stride?
+        </p>
+
+        <!-- Подсказка пролистнуть чуть ниже к ИИ-ассистенту -->
+        <div class="pt-2 flex flex-wrap items-center gap-4">
+          <a href="#ai-concierge" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-[#2B313B] hover:bg-[#414958] border border-[#5B667B]/60 text-sm font-semibold text-white transition">
+            <span>Scroll to AI Concierge & Sizing Tool</span>
+            <span class="text-lg leading-none animate-bounce">↓</span>
+          </a>
+          <span class="text-xs text-[#6C7A93]">Instant US/UK → EU conversion & live stock check</span>
+        </div>
+      </div>
+
+      <!-- Правая колонка: Превью флагманской пары -->
+      <div class="md:col-span-5">
+        <div class="nordic-card rounded-3xl overflow-hidden shadow-2xl p-4">
+          <div class="relative rounded-2xl overflow-hidden bg-[#16181D]">
+            <img src="https://i.postimg.cc/tCz9xCW5/Krossovki-Nordic-Motion-na-mokrom-kamne.png=900&auto=format&fit=crop&q=80" alt="Nordic Motion Everyday Run" class="w-full h-72 object-cover opacity-90 hover:scale-105 transition duration-500">
+            <span class="absolute top-3 left-3 bg-[#16181D]/85 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-full border border-[#5B667B]/40 text-[#CBD5E1]">
+              Flagship Road Model
+            </span>
+          </div>
+          <div class="pt-4 px-2 pb-1 flex justify-between items-end">
+            <div>
+              <h2 class="text-lg font-bold text-white">Nordic Motion Everyday Run</h2>
+              <p class="text-xs text-[#8A99B5]">Cushioned Daily Trainer • Free Shipping $125+</p>
+            </div>
+            <span class="text-2xl font-extrabold text-white">$110</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- КАТАЛОГ ИЗ 3 МОДЕЛЕЙ (ЧТОБЫ ЗАИНТЕРЕСОВАТЬ ПОЛЬЗОВАТЕЛЯ ПЕРЕД КНОПКОЙ) -->
+    <div id="lineup" class="mt-14 pt-10 border-t border-[#2B313B]/80">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">Compare Models</span>
+          <h2 class="text-2xl font-bold text-white mt-1">Our 3 Core Running Shoes</h2>
+        </div>
+        <p class="text-xs text-[#8A99B5]">Click any model or use the big AI button below to check sizing & reserve</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Модель 1 -->
+        <div onclick="openAIChat()" class="nordic-card shoe-card rounded-2xl p-4 cursor-pointer">
+          <img src="https://i.postimg.cc/tCz9xCW5/Krossovki-Nordic-Motion-na-mokrom-kamne.png=600&auto=format&fit=crop&q=80" class="w-full h-44 object-cover rounded-xl mb-4" alt="Everyday Run">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-white">Everyday Run</h3>
+            <span class="font-bold text-[#CBD5E1]">$110</span>
+          </div>
+          <p class="text-xs text-[#94A3B8] mt-1">Daily road training & marathon comfort. Sizes EU 40–45.</p>
+        </div>
+
+        <!-- Модель 2 -->
+        <div onclick="openAIChat()" class="nordic-card shoe-card rounded-2xl p-4 cursor-pointer">
+          <img src="https://i.postimg.cc/Px7DWQZt/Futuristicnye-begovye-krossovki-v-tumane.pngw=600&auto=format&fit=crop&q=80" class="w-full h-44 object-cover rounded-xl mb-4" alt="Tempo Flow">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-white">Tempo Flow</h3>
+            <span class="font-bold text-[#CBD5E1]">$120</span>
+          </div>
+          <p class="text-xs text-[#94A3B8] mt-1">Lightweight speed for 5K/10K races & track sessions. Sizes EU 40–45.</p>
+        </div>
+
+        <!-- Модель 3 -->
+        <div onclick="openAIChat()" class="nordic-card shoe-card rounded-2xl p-4 cursor-pointer">
+          <img src="https://i.postimg.cc/3R2yGQKw/Vodonepronicaemyj-botinok-v-gornom-tumane.png&auto=format&fit=crop&q=80" class="w-full h-44 object-cover rounded-xl mb-4" alt="Trail Grip">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-white">Trail Grip</h3>
+            <span class="font-bold text-[#CBD5E1]">$135</span>
+          </div>
+          <p class="text-xs text-[#94A3B8] mt-1">Aggressive traction for forest paths & wet off-road trails. Sizes EU 40–45.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 2 (ПРИ ПРОКРУТКЕ): БОЛЬШАЯ ИНТЕРАКТИВНАЯ КНОПКА ЗАПУСКА ИИ -->
+  <section id="ai-concierge" class="max-w-5xl mx-auto px-6 py-14">
+    <div class="nordic-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
+      
+      <!-- Декоративное свечение на фоне блока -->
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#5B667B]/25 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Крупная иконка проекта Nordic Motion по центру -->
+      <div class="w-20 h-20 mx-auto rounded-2xl bg-[#1A1F2C] border border-[#5B667B] flex items-center justify-center shadow-xl mb-6">
+        <svg viewBox="0 0 100 100" class="w-14 h-14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M52 38L66 16L82 40M66 16L63 29L68 34" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M74 28L80 20L90 36" stroke="#5B667B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M24 44C22 38 28 28 33 24C35 23 37 26 39 29C42 32 48 31 52 31C55 31 57 35 55 39" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M14 48H26M18 54H28" stroke="#5B667B" stroke-width="3" stroke-linecap="round"/>
+          <path d="M26 74L36 44L50 72L60 44L70 72L82 44" stroke="#94A3B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="50" y="91" text-anchor="middle" fill="#8A99B5" font-size="13" font-weight="800" letter-spacing="2.5" font-family="sans-serif">NORDIC</text>
+        </svg>
+      </div>
+
+      <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">24/7 Interactive Shopping Assistant</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">
+        Meet Your Nordic Motion AI Concierge
+      </h2>
+      <p class="text-[#94A3B8] max-w-2xl mx-auto mt-3 text-base">
+        Click the interactive button below to launch our AI specialist. Browse visual shoe carousels, convert your US/UK shoe size to EU in one second, get a 10% promo code, or track an existing order.
+      </p>
+
+      <!-- ГЛАВНАЯ БОЛЬШАЯ ИНТЕРАКТИВНАЯ КНОПКА ЗАПУСКА БОТА -->
+      <div class="mt-8 flex justify-center">
+        <button onclick="openAIChat()" class="ai-hero-btn cursor-pointer rounded-2xl px-8 py-5 md:px-12 md:py-6 flex items-center gap-5 text-left group">
+          <div class="w-12 h-12 rounded-xl bg-[#16181D]/60 border border-white/15 flex items-center justify-center shrink-0">
+            <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping absolute"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-400 relative"></span>
+          </div>
+          <div>
+            <span class="block text-xl md:text-2xl font-extrabold text-white tracking-wide">
+              Talk to AI Concierge Now
+            </span>
+            <span class="block text-xs md:text-sm text-[#CBD5E1]/90 mt-0.5">
+              Hover & click to open live chat • Sizing, Carousels & Order Tracking
+            </span>
+          </div>
+          <span class="btn-arrow text-2xl text-white font-bold transition-transform duration-300 ml-2">
+            →
+          </span>
+        </button>
+      </div>
+
+      <!-- 3 подсказки-сценария прямо под кнопкой -->
+      <div class="mt-10 grid md:grid-cols-3 gap-4 text-left">
+        <div onclick="openAIChat()" class="bg-[#16181D]/60 hover:bg-[#16181D] border border-[#5B667B]/30 rounded-xl p-4 cursor-pointer transition">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">1. Visual Carousel</span>
+          <p class="text-sm text-white font-medium mt-1">"Show running shoes carousel"</p>
+          <p class="text-xs text-[#6C7A93] mt-1">Swipe interactive product cards with photos & specs.</p>
+        </div>
+
+        <div onclick="openAIChat()" class="bg-[#16181D]/60 hover:bg-[#16181D] border border-[#5B667B]/30 rounded-xl p-4 cursor-pointer transition">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">2. Auto EU Sizing + Promo</span>
+          <p class="text-sm text-white font-medium mt-1">"I want Tempo Flow in US 10.5"</p>
+          <p class="text-xs text-[#6C7A93] mt-1">Watch it convert US → EU size & sync lead to Google Sheets.</p>
+        </div>
+
+        <div onclick="openAIChat()" class="bg-[#16181D]/60 hover:bg-[#16181D] border border-[#5B667B]/30 rounded-xl p-4 cursor-pointer transition">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">3. Instant Order Lookup</span>
+          <p class="text-sm text-white font-medium mt-1">"Where is my order #1024?"</p>
+          <p class="text-xs text-[#6C7A93] mt-1">Tests automated DHL tracking & WISMO support.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ФУТЕР -->
+  <footer class="border-t border-[#2B313B] py-8 text-center text-xs text-[#6C7A93]">
+    Nordic Motion E-Commerce AI Concierge Demo • Powered by Custom AI Automation
+  </footer>
+
+  <!-- ПОДКЛЮЧЕНИЕ ТВОЕГО ВИДЖЕТА VOICEFLOW + ФУНКЦИЯ ОТКРЫТИЯ С БОЛЬШОЙ КНОПКИ -->
+  <script type="text/javascript">
+    function openAIChat() {
+      if (window.voiceflow && window.voiceflow.chat) {
+        window.voiceflow.chat.open();
+      }
+    }
+
+    (function(d, t) {
+        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        v.onload = function() {
+          window.voiceflow.chat.load({
+            verify: { projectID: '6acd0e6845bc0ce9b6779bd7' },
+            url: 'https://general-runtime.voiceflow.com',
+            voice: {
+              url: 'https://runtime-api.voiceflow.com'
+            }
+          });
+        }
+        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
+
+</body>
+</html>
