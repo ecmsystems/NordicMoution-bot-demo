@@ -1,35 +1,129 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nordic Motion — Scandinavian Running Gear & AI Concierge</title>
+  <title id="page-title">Nordic Motion — AI Sizing & Sales Concierge Demo | ECM Systems</title>
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Three.js для настоящей интерактивной 3D-модели с рефлексией -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Vanilla-Tilt для мягкого 3D-наклона карточек -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+
   <style>
-    /* Фирменная серо-синяя палитра Nordic Motion (#5B667B / #2B313B / #16181D) */
+    :root {
+      --bg-base: #14171D;
+      --bg-elevated: #1B2029;
+      --nordic-slate: #5B667B;
+      --nordic-steel: #8A99B5;
+      --nordic-ice: #CBD5E1;
+      --border-subtle: rgba(138, 153, 181, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background-color: #16181D !important;
-      background-image: 
-        radial-gradient(circle at 15% 20%, rgba(91, 102, 123, 0.22) 0%, transparent 45%),
-        radial-gradient(circle at 85% 75%, rgba(108, 122, 147, 0.18) 0%, transparent 50%) !important;
+      background-color: var(--bg-base) !important;
       color: #F1F5F9;
       margin: 0;
+      overflow-x: hidden;
+      position: relative;
     }
 
-    /* Интерактивная большая кнопка запуска ИИ */
+    /* Мягкий скандинавский атмосферный фон без резких переходов */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: 
+        radial-gradient(circle at 15% 18%, rgba(91, 102, 123, 0.18) 0%, transparent 48%),
+        radial-gradient(circle at 85% 78%, rgba(108, 122, 147, 0.14) 0%, transparent 52%),
+        linear-gradient(180deg, #13161C 0%, #161922 50%, #12151B 100%);
+      pointer-events: none;
+    }
+
+    /* Интерактивное фоновое свечение, плавно следующее за курсором */
+    #cursor-ambient-glow {
+      position: fixed;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(138, 153, 181, 0.09) 0%, rgba(91, 102, 123, 0.03) 45%, transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: -1;
+      transition: opacity 0.4s ease;
+      will-change: left, top;
+    }
+
+    /* Карточки с эффектом матового стекла и динамическим бликом от курсора */
+    .nordic-card {
+      position: relative;
+      background: linear-gradient(165deg, rgba(38, 44, 56, 0.68) 0%, rgba(22, 26, 34, 0.86) 100%);
+      border: 1px solid var(--border-subtle);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Слой рефлексии света на карточках при наведении мыши */
+    .nordic-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(203, 213, 225, 0.11),
+        transparent 45%
+      );
+      opacity: 0;
+      transition: opacity 0.45s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .nordic-card:hover::before {
+      opacity: 1;
+    }
+
+    .nordic-card:hover {
+      border-color: rgba(138, 153, 181, 0.42);
+      box-shadow: 0 22px 48px -12px rgba(8, 10, 14, 0.75), 0 0 28px rgba(91, 102, 123, 0.14);
+    }
+
+    /* 3D-параллакс внутри карточек */
+    .tilt-card {
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .pop-out {
+      transform: translateZ(24px);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Кнопки в фирменных тонах */
     .ai-hero-btn {
-      background: linear-gradient(135deg, #5B667B 0%, #414958 100%);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow: 0 10px 30px -5px rgba(22, 24, 29, 0.8), 0 0 20px rgba(91, 102, 123, 0.25);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #5B667B 0%, #3E4756 100%);
+      border: 1px solid rgba(203, 213, 225, 0.32);
+      box-shadow: 0 12px 32px -6px rgba(15, 17, 22, 0.85), 0 0 22px rgba(91, 102, 123, 0.25);
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Эффект при наведении мышки (смена цвета + свечение + подъем) */
     .ai-hero-btn:hover {
-      background: linear-gradient(135deg, #6E82A3 0%, #4B6387 50%, #3B5278 100%);
-      border-color: rgba(186, 207, 240, 0.8);
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 20px 45px -10px rgba(59, 82, 120, 0.65), 0 0 35px rgba(110, 130, 163, 0.55);
+      background: linear-gradient(135deg, #6E82A3 0%, #4E6280 55%, #3D4F6B 100%);
+      border-color: rgba(203, 213, 225, 0.75);
+      transform: translateY(-3px) scale(1.015);
+      box-shadow: 0 20px 45px -10px rgba(62, 82, 115, 0.6), 0 0 35px rgba(138, 153, 181, 0.45);
     }
 
     .ai-hero-btn:active {
@@ -40,109 +134,175 @@
       transform: translateX(6px);
     }
 
-    /* Стеклянные карточки в серо-синем стиле */
-    .nordic-card {
-      background: linear-gradient(180deg, rgba(43, 49, 59, 0.75) 0%, rgba(26, 31, 44, 0.85) 100%);
-      border: 1px solid rgba(108, 122, 147, 0.28);
-      backdrop-filter: blur(12px);
+    /* Супер-плавная навигация в шапке с плавающей капсулой */
+    .nav-pill-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      border-radius: 9999px;
+      background: rgba(27, 32, 41, 0.75);
+      border: 1px solid rgba(138, 153, 181, 0.16);
     }
 
-    .shoe-card {
-      transition: all 0.3s ease;
+    #nav-indicator {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, rgba(91, 102, 123, 0.45), rgba(65, 73, 88, 0.65));
+      border: 1px solid rgba(203, 213, 225, 0.22);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      pointer-events: none;
+      opacity: 0;
     }
-    .shoe-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(108, 122, 147, 0.65);
-      box-shadow: 0 16px 35px -10px rgba(0, 0, 0, 0.6);
+
+    .nav-link {
+      position: relative;
+      z-index: 1;
+      padding: 7px 18px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #94A3B8;
+      border-radius: 9999px;
+      transition: color 0.35s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      color: #FFFFFF;
+    }
+
+    /* Контейнер для интерактивной 3D-модели Three.js */
+    .webgl-stage {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+      cursor: grab;
+      user-select: none;
+    }
+    .webgl-stage:active {
+      cursor: grabbing;
+    }
+    #nordic-3d-canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+      filter: drop-shadow(0 12px 28px rgba(91, 102, 123, 0.35));
+    }
+
+    /* Плавное появление секций при скролле */
+    .reveal-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-100 { transition-delay: 0.1s; }
+    .delay-200 { transition-delay: 0.2s; }
+    .delay-300 { transition-delay: 0.3s; }
+
+    /* Мягкий зум фотографий кроссовок */
+    .shoe-img-wrap img {
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nordic-card:hover .shoe-img-wrap img {
+      transform: scale(1.045);
     }
   </style>
 </head>
 <body class="font-sans antialiased selection:bg-[#5B667B] selection:text-white">
 
-  <!-- ШАПКА САЙТА С ФИРМЕННОЙ ИКОНКОЙ ПРОЕКТА -->
-  <header class="sticky top-0 z-30 border-b border-[#2B313B] bg-[#16181D]/85 backdrop-blur-md">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+  <!-- Атмосферный фон и свечение за курсором -->
+  <div class="ambient-bg"></div>
+  <div id="cursor-ambient-glow"></div>
+
+  <!-- ШАПКА САЙТА -->
+  <header class="sticky top-0 z-40 border-b border-[#2B313B]/80 bg-[#14171D]/80 backdrop-blur-xl transition-all duration-500">
+    <div class="max-w-6xl mx-auto px-6 py-3.5 flex justify-between items-center">
       
-      <!-- Логотип Nordic Motion (Горы + Кроссовок + Монограмма NM) -->
-      <a href="#" class="flex items-center gap-3.5 group">
-        <div class="w-12 h-12 rounded-xl bg-[#1A1F2C] border border-[#5B667B]/60 flex items-center justify-center shadow-lg group-hover:border-[#8A99B5] transition">
-          <svg viewBox="0 0 100 100" class="w-9 h-9" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Горы справа сверху -->
+      <a href="#top" class="smooth-nav flex items-center gap-3.5 group">
+        <div class="w-11 h-11 rounded-xl bg-[#1A1F2C] border border-[#5B667B]/60 flex items-center justify-center shadow-lg group-hover:border-[#CBD5E1]/70 transition-all duration-300">
+          <svg viewBox="0 0 100 100" class="w-8 h-8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M52 38L66 16L82 40M66 16L63 29L68 34" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M74 28L80 20L90 36" stroke="#5B667B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Силуэт кроссовка и линии скорости слева -->
             <path d="M24 44C22 38 28 28 33 24C35 23 37 26 39 29C42 32 48 31 52 31C55 31 57 35 55 39" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M14 48H26M18 54H28" stroke="#5B667B" stroke-width="3" stroke-linecap="round"/>
-            <!-- Монограмма NM -->
             <path d="M26 74L36 44L50 72L60 44L70 72L82 44" stroke="#94A3B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Надпись NORDIC -->
-            <text x="50" y="91" text-anchor="middle" fill="#8A99B5" font-size="13" font-weight="800" letter-spacing="2.5" font-family="sans-serif">NORDIC</text>
+            <text x="50" y="91" text-anchor="middle" fill="#8A99B5" font-size="13" font-weight="800" letter-spacing="2.5" font-family="sans-serif">ECM</text>
           </svg>
         </div>
         <div>
-          <span class="font-extrabold text-lg tracking-wider block leading-none text-white">NORDIC MOTION</span>
-          <span class="text-[11px] uppercase tracking-widest text-[#8A99B5]">Scandinavian Running Lab</span>
+          <span id="brand-header" class="font-extrabold text-base md:text-lg tracking-wider block leading-none text-white">NORDIC MOTION</span>
+          <span id="brand-sub" class="text-[10px] md:text-[11px] uppercase tracking-widest text-[#8A99B5] mt-0.5 block">AI Sizing & Store Concierge Sandbox</span>
         </div>
       </a>
 
-      <!-- Навигация -->
-      <nav class="hidden md:flex items-center gap-8 text-sm text-[#94A3B8]">
-        <a href="#lineup" class="hover:text-white transition">Running Lineup</a>
-        <a href="#ai-concierge" class="hover:text-white transition">AI Sizing Concierge</a>
-        <a href="#ai-concierge" class="hover:text-white transition">Order Tracking</a>
+      <!-- Меню со скользящей капсулой -->
+      <nav class="hidden md:flex nav-pill-container" id="main-nav">
+        <div id="nav-indicator"></div>
+        <a href="#lineup" class="nav-link smooth-nav active">Sample Lineup</a>
+        <a href="#ai-concierge" class="nav-link smooth-nav">AI Sizing Engine</a>
+        <a href="#shopify-setup" class="nav-link smooth-nav">60-Sec Setup</a>
       </nav>
 
-      <!-- Статус демо -->
-      <a href="#ai-concierge" class="text-xs bg-[#2B313B] hover:bg-[#414958] text-[#CBD5E1] border border-[#5B667B]/50 px-3.5 py-2 rounded-full flex items-center gap-2 transition">
+      <button onclick="openAIChat()" class="text-xs bg-[#232934] hover:bg-[#323B4B] text-[#CBD5E1] border border-[#5B667B]/50 px-4 py-2.5 rounded-full flex items-center gap-2.5 transition-all duration-300 cursor-pointer shadow-md hover:border-[#8A99B5]">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Interactive AI Demo
-      </a>
+        <span id="badge-text" class="font-medium">Live Shopify AI Demo</span>
+      </button>
     </div>
   </header>
 
-  <!-- ЭКРАН 1: ВОВЛЕКАЮЩАЯ ВИТРИНА БРЕНДА -->
-  <section class="max-w-6xl mx-auto px-6 pt-14 pb-12">
+  <!-- ЭКРАН 1: HERO (БЕЗ ЛАЗЕРНОГО СКАНЕРА НА КРОССОВКЕ) -->
+  <section id="top" class="max-w-6xl mx-auto px-6 pt-14 pb-12">
     <div class="grid md:grid-cols-12 gap-10 items-center">
       
-      <!-- Левая колонка: Оффер бренда -->
-      <div class="md:col-span-7 space-y-6">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2B313B] border border-[#5B667B]/40 text-xs uppercase tracking-widest text-[#94A3B8] font-semibold">
-          <span>2026 Performance Collection</span>
+      <!-- Левая колонка -->
+      <div class="md:col-span-7 space-y-6 reveal-up">
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#232934]/90 border border-[#5B667B]/40 text-xs uppercase tracking-widest text-[#CBD5E1] font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#8A99B5]"></span>
+          <span id="pill-tag">2026 Interactive Sandbox</span>
           <span class="text-[#5B667B]">•</span>
-          <span>EU 40–45</span>
+          <span>CM / US / UK / EU Sizing</span>
         </div>
 
-        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
-          Engineered for <br>
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#CBD5E1] via-[#8A99B5] to-[#5B667B]">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
+          <span id="hero-title-1">Engineered for</span> <br>
+          <span id="hero-title-2" class="text-transparent bg-clip-text bg-gradient-to-r from-[#F1F5F9] via-[#94A3B8] to-[#5B667B]">
             Nordic Endurance.
           </span>
         </h1>
 
-        <p class="text-[#94A3B8] text-lg leading-relaxed max-w-xl">
-          Minimalist Scandinavian running footwear crafted for daily road miles, fast tempo sessions, and rugged forest trails. Not sure about your EU size or which model fits your stride?
+        <p id="hero-desc" class="text-[#94A3B8] text-lg leading-relaxed max-w-xl">
+          Test our interactive AI Sizing & Sales Concierge below. Type your foot length in cm, compare brand sizing, swipe visual sneaker carousels, or test automated order tracking (#1024).
         </p>
 
-        <!-- Подсказка пролистнуть чуть ниже к ИИ-ассистенту -->
         <div class="pt-2 flex flex-wrap items-center gap-4">
-          <a href="#ai-concierge" class="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-[#2B313B] hover:bg-[#414958] border border-[#5B667B]/60 text-sm font-semibold text-white transition">
-            <span>Scroll to AI Concierge & Sizing Tool</span>
-            <span class="text-lg leading-none animate-bounce">↓</span>
-          </a>
-          <span class="text-xs text-[#6C7A93]">Instant US/UK → EU conversion & live stock check</span>
+          <button onclick="openAIChat()" class="ai-hero-btn px-7 py-4 rounded-xl text-sm font-bold text-white flex items-center gap-3 cursor-pointer">
+            <span>Launch AI Sizing Concierge</span>
+            <span class="btn-arrow transition-transform duration-300 text-lg leading-none">→</span>
+          </button>
+          <span class="text-xs text-[#8A99B5]">Instant CM/US/UK → EU conversion & live stock cards</span>
         </div>
       </div>
 
-      <!-- Правая колонка: Превью флагманской пары -->
-      <div class="md:col-span-5">
-        <div class="nordic-card rounded-3xl overflow-hidden shadow-2xl p-4">
-          <div class="relative rounded-2xl overflow-hidden bg-[#16181D]">
-            <img src="https://i.postimg.cc/tCz9xCW5/Krossovki-Nordic-Motion-na-mokrom-kamne.png=900&auto=format&fit=crop&q=80" alt="Nordic Motion Everyday Run" class="w-full h-72 object-cover opacity-90 hover:scale-105 transition duration-500">
-            <span class="absolute top-3 left-3 bg-[#16181D]/85 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-full border border-[#5B667B]/40 text-[#CBD5E1]">
+      <!-- Правая колонка: Чистая карточка главного кроссовка с мягким 3D-наклоном -->
+      <div class="md:col-span-5 reveal-up delay-100">
+        <div onclick="openAIChat()" data-tilt data-tilt-max="8" data-tilt-speed="600" data-tilt-glare="true" data-tilt-max-glare="0.12" class="nordic-card tilt-card rounded-3xl p-4 cursor-pointer shadow-2xl">
+          <div class="relative rounded-2xl overflow-hidden bg-[#14171D] pop-out shoe-img-wrap shadow-lg">
+            <img src="https://i.postimg.cc/tCz9xCW5/Krossovki-Nordic-Motion-na-mokrom-kamne.png" alt="Nordic Motion Everyday Run" class="w-full h-72 object-cover">
+            <span class="absolute top-3 left-3 bg-[#14171D]/85 backdrop-blur-md text-xs font-semibold px-3.5 py-1.5 rounded-full border border-[#5B667B]/40 text-[#CBD5E1]">
               Flagship Road Model
             </span>
           </div>
-          <div class="pt-4 px-2 pb-1 flex justify-between items-end">
+          <div class="pt-4 px-2 pb-1 flex justify-between items-end pop-out">
             <div>
               <h2 class="text-lg font-bold text-white">Nordic Motion Everyday Run</h2>
               <p class="text-xs text-[#8A99B5]">Cushioned Daily Trainer • Free Shipping $125+</p>
@@ -154,90 +314,93 @@
 
     </div>
 
-    <!-- КАТАЛОГ ИЗ 3 МОДЕЛЕЙ (ЧТОБЫ ЗАИНТЕРЕСОВАТЬ ПОЛЬЗОВАТЕЛЯ ПЕРЕД КНОПКОЙ) -->
-    <div id="lineup" class="mt-14 pt-10 border-t border-[#2B313B]/80">
+    <!-- КАТАЛОГ ИЗ 3 МОДЕЛЕЙ -->
+    <div id="lineup" class="mt-16 pt-12 border-t border-[#2B313B]/70 reveal-up">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">Compare Models</span>
-          <h2 class="text-2xl font-bold text-white mt-1">Our 3 Core Running Shoes</h2>
+          <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">Sample Store Inventory</span>
+          <h2 class="text-2xl font-bold text-white mt-1">3 Pre-Loaded Demo Footwear Models</h2>
         </div>
-        <p class="text-xs text-[#8A99B5]">Click any model or use the big AI button below to check sizing & reserve</p>
+        <p class="text-xs text-[#8A99B5]">Hover any model to feel the depth • Click to test sizing & reservation in AI Chat</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-6">
+      <div class="grid md:grid-cols-3 gap-7">
         <!-- Модель 1 -->
-        <div onclick="openAIChat()" class="nordic-card shoe-card rounded-2xl p-4 cursor-pointer">
-          <img src="https://i.postimg.cc/tCz9xCW5/Krossovki-Nordic-Motion-na-mokrom-kamne.png=600&auto=format&fit=crop&q=80" class="w-full h-44 object-cover rounded-xl mb-4" alt="Everyday Run">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-white">Everyday Run</h3>
-            <span class="font-bold text-[#CBD5E1]">$110</span>
+        <div onclick="openAIChat()" data-tilt data-tilt-max="9" data-tilt-speed="550" data-tilt-glare="true" data-tilt-max-glare="0.1" class="nordic-card tilt-card rounded-2xl p-5 cursor-pointer reveal-up delay-100">
+          <div class="pop-out rounded-xl overflow-hidden mb-4 shadow-md bg-[#14171D] shoe-img-wrap">
+            <img src="https://i.postimg.cc/tCz9xCW5/Krossovki-Nordic-Motion-na-mokrom-kamne.png" class="w-full h-48 object-cover" alt="Everyday Run">
           </div>
-          <p class="text-xs text-[#94A3B8] mt-1">Daily road training & marathon comfort. Sizes EU 40–45.</p>
+          <div class="pop-out flex justify-between items-center">
+            <h3 class="font-bold text-white text-base">Everyday Run</h3>
+            <span class="font-extrabold text-[#CBD5E1] bg-[#232934] border border-[#5B667B]/30 px-2.5 py-1 rounded-lg text-sm">$110</span>
+          </div>
+          <p class="pop-out text-xs text-[#94A3B8] mt-1.5">Daily road training & marathon comfort. Sizes EU 40–45.</p>
         </div>
 
         <!-- Модель 2 -->
-        <div onclick="openAIChat()" class="nordic-card shoe-card rounded-2xl p-4 cursor-pointer">
-          <img src="https://i.postimg.cc/Px7DWQZt/Futuristicnye-begovye-krossovki-v-tumane.pngw=600&auto=format&fit=crop&q=80" class="w-full h-44 object-cover rounded-xl mb-4" alt="Tempo Flow">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-white">Tempo Flow</h3>
-            <span class="font-bold text-[#CBD5E1]">$120</span>
+        <div onclick="openAIChat()" data-tilt data-tilt-max="9" data-tilt-speed="550" data-tilt-glare="true" data-tilt-max-glare="0.1" class="nordic-card tilt-card rounded-2xl p-5 cursor-pointer reveal-up delay-200">
+          <div class="pop-out rounded-xl overflow-hidden mb-4 shadow-md bg-[#14171D] shoe-img-wrap">
+            <img src="https://i.postimg.cc/zBDYWnJH/Futuristicnye-begovye-krossovki-v-tumane.png" class="w-full h-48 object-cover" alt="Tempo Flow">
           </div>
-          <p class="text-xs text-[#94A3B8] mt-1">Lightweight speed for 5K/10K races & track sessions. Sizes EU 40–45.</p>
+          <div class="pop-out flex justify-between items-center">
+            <h3 class="font-bold text-white text-base">Tempo Flow</h3>
+            <span class="font-extrabold text-[#CBD5E1] bg-[#232934] border border-[#5B667B]/30 px-2.5 py-1 rounded-lg text-sm">$120</span>
+          </div>
+          <p class="pop-out text-xs text-[#94A3B8] mt-1.5">Lightweight speed for 5K/10K races & track sessions. Sizes EU 40–45.</p>
         </div>
 
         <!-- Модель 3 -->
-        <div onclick="openAIChat()" class="nordic-card shoe-card rounded-2xl p-4 cursor-pointer">
-          <img src="https://i.postimg.cc/3R2yGQKw/Vodonepronicaemyj-botinok-v-gornom-tumane.png&auto=format&fit=crop&q=80" class="w-full h-44 object-cover rounded-xl mb-4" alt="Trail Grip">
-          <div class="flex justify-between items-center">
-            <h3 class="font-bold text-white">Trail Grip</h3>
-            <span class="font-bold text-[#CBD5E1]">$135</span>
+        <div onclick="openAIChat()" data-tilt data-tilt-max="9" data-tilt-speed="550" data-tilt-glare="true" data-tilt-max-glare="0.1" class="nordic-card tilt-card rounded-2xl p-5 cursor-pointer reveal-up delay-300">
+          <div class="pop-out rounded-xl overflow-hidden mb-4 shadow-md bg-[#14171D] shoe-img-wrap">
+            <img src="https://i.postimg.cc/3R2yGQKw/Vodonepronicaemyj-botinok-v-gornom-tumane.png" class="w-full h-48 object-cover" alt="Trail Grip">
           </div>
-          <p class="text-xs text-[#94A3B8] mt-1">Aggressive traction for forest paths & wet off-road trails. Sizes EU 40–45.</p>
+          <div class="pop-out flex justify-between items-center">
+            <h3 class="font-bold text-white text-base">Trail Grip</h3>
+            <span class="font-extrabold text-[#CBD5E1] bg-[#232934] border border-[#5B667B]/30 px-2.5 py-1 rounded-lg text-sm">$135</span>
+          </div>
+          <p class="pop-out text-xs text-[#94A3B8] mt-1.5">Aggressive traction for forest paths & wet off-road trails. Sizes EU 40–45.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ЭКРАН 2 (ПРИ ПРОКРУТКЕ): БОЛЬШАЯ ИНТЕРАКТИВНАЯ КНОПКА ЗАПУСКА ИИ -->
-  <section id="ai-concierge" class="max-w-5xl mx-auto px-6 py-14">
+  <!-- ЭКРАН 2: ИНТЕРАКТИВНАЯ 3D-МОДЕЛЬ (THREE.JS) + ЗАПУСК ИИ -->
+  <section id="ai-concierge" class="max-w-5xl mx-auto px-6 py-12 reveal-up">
     <div class="nordic-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
       
-      <!-- Декоративное свечение на фоне блока -->
-      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#5B667B]/25 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Мягкое внутреннее свечение в скандинавских тонах -->
+      <div class="absolute -top-28 left-1/2 -translate-x-1/2 w-[420px] h-[420px] bg-[#5B667B]/20 rounded-full blur-3xl pointer-events-none"></div>
 
-      <!-- Крупная иконка проекта Nordic Motion по центру -->
-      <div class="w-20 h-20 mx-auto rounded-2xl bg-[#1A1F2C] border border-[#5B667B] flex items-center justify-center shadow-xl mb-6">
-        <svg viewBox="0 0 100 100" class="w-14 h-14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M52 38L66 16L82 40M66 16L63 29L68 34" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M74 28L80 20L90 36" stroke="#5B667B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M24 44C22 38 28 28 33 24C35 23 37 26 39 29C42 32 48 31 52 31C55 31 57 35 55 39" stroke="#8A99B5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M14 48H26M18 54H28" stroke="#5B667B" stroke-width="3" stroke-linecap="round"/>
-          <path d="M26 74L36 44L50 72L60 44L70 72L82 44" stroke="#94A3B8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="50" y="91" text-anchor="middle" fill="#8A99B5" font-size="13" font-weight="800" letter-spacing="2.5" font-family="sans-serif">NORDIC</text>
-        </svg>
+      <!-- НАСТОЯЩАЯ ИНТЕРАКТИВНАЯ 3D-МОДЕЛЬ (РЕАГИРУЕТ И БЛИКУЕТ НА КУРСОР) -->
+      <div class="relative z-10 mb-2">
+        <div class="webgl-stage" id="core-stage" title="Move cursor or click to interact with 3D AI Core">
+          <canvas id="nordic-3d-canvas"></canvas>
+        </div>
+        <span class="text-[11px] text-[#6C7A93] block -mt-2 mb-3 tracking-wide">
+          Interactive 3D Core • Move cursor to reflect light or click to pulse
+        </span>
       </div>
 
-      <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">24/7 Interactive Shopping Assistant</span>
-      <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">
-        Meet Your Nordic Motion AI Concierge
+      <span class="relative z-10 text-xs uppercase tracking-widest text-[#8A99B5] font-semibold block">24/7 Interactive Shopping Assistant</span>
+      <h2 id="cta-heading" class="relative z-10 text-3xl md:text-4xl font-extrabold text-white mt-2">
+        Test the AI Sizing & Sales Concierge
       </h2>
-      <p class="text-[#94A3B8] max-w-2xl mx-auto mt-3 text-base">
-        Click the interactive button below to launch our AI specialist. Browse visual shoe carousels, convert your US/UK shoe size to EU in one second, get a 10% promo code, or track an existing order.
+      <p class="relative z-10 text-[#94A3B8] max-w-2xl mx-auto mt-3 text-base">
+        Click the button below to open the widget. Try asking for your shoe size in cm (e.g. "My foot is 27.5 cm"), browsing the visual carousel, or tracking sample order #1024.
       </p>
 
-      <!-- ГЛАВНАЯ БОЛЬШАЯ ИНТЕРАКТИВНАЯ КНОПКА ЗАПУСКА БОТА -->
-      <div class="mt-8 flex justify-center">
+      <div class="relative z-10 mt-8 flex justify-center">
         <button onclick="openAIChat()" class="ai-hero-btn cursor-pointer rounded-2xl px-8 py-5 md:px-12 md:py-6 flex items-center gap-5 text-left group">
-          <div class="w-12 h-12 rounded-xl bg-[#16181D]/60 border border-white/15 flex items-center justify-center shrink-0">
+          <div class="w-12 h-12 rounded-xl bg-[#14171D]/70 border border-white/15 flex items-center justify-center shrink-0">
             <span class="w-3 h-3 rounded-full bg-emerald-400 animate-ping absolute"></span>
             <span class="w-3 h-3 rounded-full bg-emerald-400 relative"></span>
           </div>
           <div>
             <span class="block text-xl md:text-2xl font-extrabold text-white tracking-wide">
-              Talk to AI Concierge Now
+              Open Live AI Concierge
             </span>
             <span class="block text-xs md:text-sm text-[#CBD5E1]/90 mt-0.5">
-              Hover & click to open live chat • Sizing, Carousels & Order Tracking
+              Click to test • Foot CM Sizing, Product Carousels & Order Lookup
             </span>
           </div>
           <span class="btn-arrow text-2xl text-white font-bold transition-transform duration-300 ml-2">
@@ -246,37 +409,79 @@
         </button>
       </div>
 
-      <!-- 3 подсказки-сценария прямо под кнопкой -->
-      <div class="mt-10 grid md:grid-cols-3 gap-4 text-left">
-        <div onclick="openAIChat()" class="bg-[#16181D]/60 hover:bg-[#16181D] border border-[#5B667B]/30 rounded-xl p-4 cursor-pointer transition">
+      <div class="relative z-10 mt-10 grid md:grid-cols-3 gap-4 text-left">
+        <div onclick="openAIChat()" class="bg-[#14171D]/65 hover:bg-[#1B2029] border border-[#5B667B]/30 hover:border-[#8A99B5]/60 rounded-xl p-4 cursor-pointer transition-all duration-300">
           <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">1. Visual Carousel</span>
           <p class="text-sm text-white font-medium mt-1">"Show running shoes carousel"</p>
-          <p class="text-xs text-[#6C7A93] mt-1">Swipe interactive product cards with photos & specs.</p>
+          <p class="text-xs text-[#6C7A93] mt-1">Swipe interactive product cards right inside the chat.</p>
         </div>
 
-        <div onclick="openAIChat()" class="bg-[#16181D]/60 hover:bg-[#16181D] border border-[#5B667B]/30 rounded-xl p-4 cursor-pointer transition">
-          <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">2. Auto EU Sizing + Promo</span>
-          <p class="text-sm text-white font-medium mt-1">"I want Tempo Flow in US 10.5"</p>
-          <p class="text-xs text-[#6C7A93] mt-1">Watch it convert US → EU size & sync lead to Google Sheets.</p>
+        <div onclick="openAIChat()" class="bg-[#14171D]/65 hover:bg-[#1B2029] border border-[#5B667B]/30 hover:border-[#8A99B5]/60 rounded-xl p-4 cursor-pointer transition-all duration-300">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">2. CM / US → EU Sizing</span>
+          <p class="text-sm text-white font-medium mt-1">"My foot is 27.5 cm, what size fits?"</p>
+          <p class="text-xs text-[#6C7A93] mt-1">Calculates exact fit & captures customer leads to Google Sheets.</p>
         </div>
 
-        <div onclick="openAIChat()" class="bg-[#16181D]/60 hover:bg-[#16181D] border border-[#5B667B]/30 rounded-xl p-4 cursor-pointer transition">
+        <div onclick="openAIChat()" class="bg-[#14171D]/65 hover:bg-[#1B2029] border border-[#5B667B]/30 hover:border-[#8A99B5]/60 rounded-xl p-4 cursor-pointer transition-all duration-300">
           <span class="text-xs font-bold uppercase tracking-wider text-[#8A99B5]">3. Instant Order Lookup</span>
           <p class="text-sm text-white font-medium mt-1">"Where is my order #1024?"</p>
-          <p class="text-xs text-[#6C7A93] mt-1">Tests automated DHL tracking & WISMO support.</p>
+          <p class="text-xs text-[#6C7A93] mt-1">Tests automated DHL tracking & 24/7 WISMO support.</p>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- ФУТЕР -->
-  <footer class="border-t border-[#2B313B] py-8 text-center text-xs text-[#6C7A93]">
-    Nordic Motion E-Commerce AI Concierge Demo • Powered by Custom AI Automation
+  <!-- БЛОК ДОВЕРИЯ: УСТАНОВКА НА SHOPIFY ЗА 60 СЕКУНД -->
+  <section id="shopify-setup" class="max-w-5xl mx-auto px-6 pb-16 reveal-up">
+    <div class="text-center mb-8">
+      <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">Plug & Play Architecture</span>
+      <h3 class="text-2xl font-bold text-white mt-1">Live on Your Shopify Store in 60 Seconds</h3>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="nordic-card rounded-2xl p-6">
+        <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-[#CBD5E1]">STEP 1</span>
+        <h4 class="text-base font-bold text-white mt-3">Custom Catalog & Fit Training</h4>
+        <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">We pre-load your exact footwear models, brand sizing charts (CM/US/UK/EU), and store shipping policies.</p>
+      </div>
+      <div class="nordic-card rounded-2xl p-6">
+        <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-[#CBD5E1]">STEP 2</span>
+        <h4 class="text-base font-bold text-white mt-3">1-Line Shopify Snippet</h4>
+        <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">Paste a single lightweight script into your Shopify <code class="text-[#CBD5E1]">theme.liquid</code>. Zero impact on page load speed.</p>
+      </div>
+      <div class="nordic-card rounded-2xl p-6">
+        <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-[#CBD5E1]">STEP 3</span>
+        <h4 class="text-base font-bold text-white mt-3">24/7 Sizing & Lead Capture</h4>
+        <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">Shoppers get instant sizing answers, swipe product cards in chat, and leave verified leads automatically.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ФУТЕР С БРЕНДИНГОМ ECM SYSTEMS -->
+  <footer class="border-t border-[#2B313B]/80 py-8 text-center text-xs text-[#6C7A93] space-y-1">
+    <p class="text-[#94A3B8] font-semibold">Built by ECM Systems — Custom AI Sizing & Sales Concierges for Shopify</p>
+    <p>Contact: ecm.system@proton.me • max.ecommerce@outlook.com</p>
   </footer>
 
-  <!-- ПОДКЛЮЧЕНИЕ ТВОЕГО ВИДЖЕТА VOICEFLOW + ФУНКЦИЯ ОТКРЫТИЯ С БОЛЬШОЙ КНОПКИ -->
+  <!-- СКРИПТЫ: 3D-МОДЕЛЬ THREE.JS, ПЛАВНОЕ МЕНЮ, BLIK КАРТОЧЕК И VOICEFLOW -->
   <script type="text/javascript">
+    /* 1. РЕЖИМ ХАМЕЛЕОН (?store=Name) */
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var store = params.get('store');
+      if (store) {
+        var cleanStore = store.replace(/[^a-zA-Z0-9 .&-]/g, '');
+        document.getElementById('page-title').innerText = cleanStore + ' — AI Sizing Concierge Preview | ECM Systems';
+        document.getElementById('brand-header').innerText = cleanStore.toUpperCase();
+        document.getElementById('brand-sub').innerText = 'Custom AI Concierge Sandbox Preview';
+        document.getElementById('pill-tag').innerText = 'Prepared for ' + cleanStore;
+        document.getElementById('hero-title-1').innerText = 'AI Sizing Preview for';
+        document.getElementById('hero-title-2').innerText = cleanStore + '.';
+        document.getElementById('cta-heading').innerText = 'Test ' + cleanStore + '\'s AI Concierge Concept';
+      }
+    })();
+
+    /* 2. ОТКРЫТИЕ ЧАТА VOICEFLOW */
     function openAIChat() {
       if (window.voiceflow && window.voiceflow.chat) {
         window.voiceflow.chat.open();
@@ -284,19 +489,310 @@
     }
 
     (function(d, t) {
-        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        v.onload = function() {
-          window.voiceflow.chat.load({
-            verify: { projectID: '6acd0e6845bc0ce9b6779bd7' },
-            url: 'https://general-runtime.voiceflow.com',
-            voice: {
-              url: 'https://runtime-api.voiceflow.com'
-            }
-          });
-        }
-        v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+      var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      v.onload = function() {
+        window.voiceflow.chat.load({
+          verify: { projectID: '6acd0e6845bc0ce9b6779bd7' },
+          url: 'https://general-runtime.voiceflow.com',
+          voice: { url: 'https://runtime-api.voiceflow.com' }
+        });
+      };
+      v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs";
+      v.type = "text/javascript";
+      s.parentNode.insertBefore(v, s);
     })(document, 'script');
-  </script>
 
+    /* 3. ПЛАВНОЕ СЛЕДОВАНИЕ СВЕТА ЗА КУРСОРОМ И РЕФЛЕКСИЯ НА КАРТОЧКАХ */
+    (function() {
+      var ambientGlow = document.getElementById('cursor-ambient-glow');
+      var cards = document.querySelectorAll('.nordic-card');
+      var mouseX = window.innerWidth / 2;
+      var mouseY = window.innerHeight / 2;
+      var glowX = mouseX;
+      var glowY = mouseY;
+
+      window.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        cards.forEach(function(card) {
+          var rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+          card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+        });
+      });
+
+      function animateAmbientGlow() {
+        glowX += (mouseX - glowX) * 0.08;
+        glowY += (mouseY - glowY) * 0.08;
+        if (ambientGlow) {
+          ambientGlow.style.left = glowX + 'px';
+          ambientGlow.style.top = glowY + 'px';
+        }
+        requestAnimationFrame(animateAmbientGlow);
+      }
+      animateAmbientGlow();
+    })();
+
+    /* 4. СУПЕР-ПЛАВНОЕ МЕНЮ С ПЛАВАЮЩЕЙ КАПСУЛОЙ И МЯГКИМ СКРОЛЛОМ (easeInOutQuart) */
+    (function() {
+      var nav = document.getElementById('main-nav');
+      var indicator = document.getElementById('nav-indicator');
+      var navLinks = document.querySelectorAll('.nav-link');
+      var activeLink = document.querySelector('.nav-link.active');
+
+      function moveIndicator(el) {
+        if (!el || !indicator || !nav) return;
+        var navRect = nav.getBoundingClientRect();
+        var elRect = el.getBoundingClientRect();
+        indicator.style.width = elRect.width + 'px';
+        indicator.style.transform = 'translateX(' + (elRect.left - navRect.left - 4) + 'px)';
+        indicator.style.opacity = '1';
+      }
+
+      window.addEventListener('load', function() { moveIndicator(activeLink); });
+      window.addEventListener('resize', function() { moveIndicator(activeLink); });
+
+      navLinks.forEach(function(link) {
+        link.addEventListener('mouseenter', function() { moveIndicator(link); });
+        link.addEventListener('click', function() {
+          navLinks.forEach(function(l) { l.classList.remove('active'); });
+          link.classList.add('active');
+          activeLink = link;
+        });
+      });
+
+      if (nav) {
+        nav.addEventListener('mouseleave', function() { moveIndicator(activeLink); });
+      }
+
+      // Кастомный плавный скролл при клике по якорным ссылкам
+      function smoothScrollTo(targetY, duration) {
+        var startY = window.pageYOffset;
+        var diff = targetY - startY;
+        var startTime = null;
+
+        function easeInOutQuart(t) {
+          return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+        }
+
+        function step(currentTime) {
+          if (!startTime) startTime = currentTime;
+          var time = currentTime - startTime;
+          var percent = Math.min(time / duration, 1);
+          window.scrollTo(0, startY + diff * easeInOutQuart(percent));
+          if (time < duration) {
+            requestAnimationFrame(step);
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      document.querySelectorAll('.smooth-nav').forEach(function(anchor) {
+        anchor.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            var target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              var headerOffset = 84;
+              var targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+              smoothScrollTo(targetPosition, 850);
+            }
+          }
+        });
+      });
+
+      // Scroll-reveal анимация появления секций
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal-up').forEach(function(el) {
+        observer.observe(el);
+      });
+    })();
+
+    /* 5. ИНТЕРАКТИВНАЯ 3D-МОДЕЛЬ НА THREE.JS (РЕАГИРУЕТ И БЛИКУЕТ НА КУРСОР) */
+    (function() {
+      var canvas = document.getElementById('nordic-3d-canvas');
+      var stage = document.getElementById('core-stage');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+      camera.position.z = 5.6;
+
+      var renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true
+      });
+      renderer.setSize(220, 220);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      var mainGroup = new THREE.Group();
+      scene.add(mainGroup);
+
+      // 1. Центральный гранёный металлический кристалл (рефлектирует свет от курсора)
+      var coreGeo = new THREE.IcosahedronGeometry(1.05, 0);
+      var coreMat = new THREE.MeshStandardMaterial({
+        color: 0x5B667B,
+        metalness: 0.88,
+        roughness: 0.18,
+        flatShading: true
+      });
+      var coreMesh = new THREE.Mesh(coreGeo, coreMat);
+      mainGroup.add(coreMesh);
+
+      // 2. Тонкий каркас поверх кристалла
+      var wireGeo = new THREE.IcosahedronGeometry(1.08, 0);
+      var wireMat = new THREE.MeshBasicMaterial({
+        color: 0xCBD5E1,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.32
+      });
+      var wireMesh = new THREE.Mesh(wireGeo, wireMat);
+      mainGroup.add(wireMesh);
+
+      // 3. Три гироскопических металлических кольца (плавное бесшовное вращение)
+      var ringMat1 = new THREE.MeshStandardMaterial({
+        color: 0x8A99B5,
+        metalness: 0.9,
+        roughness: 0.15
+      });
+      var ringMat2 = new THREE.MeshStandardMaterial({
+        color: 0xCBD5E1,
+        metalness: 0.85,
+        roughness: 0.2
+      });
+
+      var ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.52, 0.025, 24, 100), ringMat1);
+      ring1.rotation.x = Math.PI / 2.6;
+      mainGroup.add(ring1);
+
+      var ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.78, 0.02, 24, 100), ringMat2);
+      ring2.rotation.y = Math.PI / 3.2;
+      ring2.rotation.x = Math.PI / 5;
+      mainGroup.add(ring2);
+
+      var ring3 = new THREE.Mesh(new THREE.TorusGeometry(2.02, 0.014, 16, 90), ringMat1);
+      ring3.rotation.x = -Math.PI / 3.5;
+      ring3.rotation.y = -Math.PI / 4;
+      mainGroup.add(ring3);
+
+      // 4. Парящие орбитальные частицы вокруг ядра
+      var particlesGeo = new THREE.BufferGeometry();
+      var particleCount = 36;
+      var posArray = new Float32Array(particleCount * 3);
+      for (var i = 0; i < particleCount; i++) {
+        var r = 1.9 + Math.random() * 0.45;
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos(2 * Math.random() - 1);
+        posArray[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        posArray[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+        posArray[i * 3 + 2] = r * Math.cos(phi);
+      }
+      particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+      var particlesMat = new THREE.PointsMaterial({
+        size: 0.055,
+        color: 0xCBD5E1,
+        transparent: true,
+        opacity: 0.75
+      });
+      var particleCloud = new THREE.Points(particlesGeo, particlesMat);
+      mainGroup.add(particleCloud);
+
+      // Освещение для глубоких металлических бликов
+      var ambientLight = new THREE.AmbientLight(0x8A99B5, 0.7);
+      scene.add(ambientLight);
+
+      // Главный свет, следующий за курсором и создающий живые блики на гранях
+      var cursorLight = new THREE.PointLight(0xF1F5F9, 3.2, 18);
+      cursorLight.position.set(2, 2, 4);
+      scene.add(cursorLight);
+
+      var rimLight = new THREE.DirectionalLight(0x6E82A3, 1.8);
+      rimLight.position.set(-4, -3, 2);
+      scene.add(rimLight);
+
+      // Интерактивная физика отклика на курсор
+      var targetRotX = 0;
+      var targetRotY = 0;
+      var targetLightX = 2;
+      var targetLightY = 2;
+      var pulseScale = 1;
+      var isHovered = false;
+
+      window.addEventListener('mousemove', function(e) {
+        var nx = (e.clientX / window.innerWidth) * 2 - 1;
+        var ny = -(e.clientY / window.innerHeight) * 2 + 1;
+
+        targetRotY = nx * 0.85;
+        targetRotX = -ny * 0.65;
+
+        targetLightX = nx * 4.5;
+        targetLightY = ny * 4.5;
+      });
+
+      stage.addEventListener('mouseenter', function() {
+        isHovered = true;
+      });
+      stage.addEventListener('mouseleave', function() {
+        isHovered = false;
+      });
+      stage.addEventListener('click', function() {
+        pulseScale = 1.24;
+        openAIChat();
+      });
+
+      // Бесконечный и идеально плавный цикл рендера без скачков
+      var clock = new THREE.Clock();
+
+      function animate3D() {
+        requestAnimationFrame(animate3D);
+        var delta = clock.getDelta();
+        var speedMultiplier = isHovered ? 2.2 : 1.0;
+
+        // Вращение кристалла и колец
+        coreMesh.rotation.y += delta * 0.45 * speedMultiplier;
+        coreMesh.rotation.x += delta * 0.25 * speedMultiplier;
+        wireMesh.rotation.copy(coreMesh.rotation);
+
+        ring1.rotation.z += delta * 0.55 * speedMultiplier;
+        ring1.rotation.x += delta * 0.18 * speedMultiplier;
+
+        ring2.rotation.y -= delta * 0.48 * speedMultiplier;
+        ring2.rotation.z += delta * 0.22 * speedMultiplier;
+
+        ring3.rotation.x += delta * 0.35 * speedMultiplier;
+        ring3.rotation.y += delta * 0.3 * speedMultiplier;
+
+        particleCloud.rotation.y -= delta * 0.15 * speedMultiplier;
+
+        // Плавная интерполяция наклона к курсору (инерция)
+        mainGroup.rotation.y += (targetRotY - mainGroup.rotation.y) * 0.06;
+        mainGroup.rotation.x += (targetRotX - mainGroup.rotation.x) * 0.06;
+
+        // Перемещение бликующего источника света за курсором
+        cursorLight.position.x += (targetLightX - cursorLight.position.x) * 0.1;
+        cursorLight.position.y += (targetLightY - cursorLight.position.y) * 0.1;
+
+        // Плавное возвращение масштаба после клика/наведения
+        var desiredScale = isHovered ? 1.07 : 1.0;
+        pulseScale += (desiredScale - pulseScale) * 0.08;
+        mainGroup.scale.set(pulseScale, pulseScale, pulseScale);
+
+        renderer.render(scene, camera);
+      }
+
+      animate3D();
+    })();
+  </script>
 </body>
 </html>
