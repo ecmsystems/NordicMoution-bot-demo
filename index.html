@@ -162,7 +162,6 @@
       background: linear-gradient(135deg, rgba(91, 102, 123, 0.55), rgba(65, 73, 88, 0.75));
       border: 1px solid rgba(203, 213, 225, 0.25);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-      /* Четкая линейно-равномерная анимация без скачков ускорения */
       transition: transform 0.24s ease-out, width 0.24s ease-out, opacity 0.2s ease;
       pointer-events: none;
       opacity: 0;
@@ -172,8 +171,8 @@
     .nav-link {
       position: relative;
       z-index: 1;
-      padding: 7px 15px;
-      font-size: 0.82rem;
+      padding: 7px 13px;
+      font-size: 0.8rem;
       font-weight: 500;
       color: #94A3B8;
       border-radius: 9999px;
@@ -184,6 +183,43 @@
     .nav-link:hover,
     .nav-link.active {
       color: #FFFFFF;
+    }
+
+    /* Стилизация ползунков калькулятора ROI */
+    .nordic-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(91, 102, 123, 0.35);
+      outline: none;
+      cursor: pointer;
+    }
+    .nordic-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #10B981;
+      border: 2px solid #F1F5F9;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .nordic-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    .nordic-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #10B981;
+      border: 2px solid #F1F5F9;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+      cursor: pointer;
+      transition: transform 0.15s ease;
     }
 
     /* Контейнер для интерактивной 3D-модели Three.js */
@@ -251,17 +287,18 @@
         </div>
         <div>
           <span id="brand-header" class="font-extrabold text-base md:text-lg tracking-wider block leading-none text-white">NORDIC MOTION</span>
-          <span id="brand-sub" class="text-[10px] md:text-[11px] uppercase tracking-widest text-[#8A99B5] mt-0.5 block">AI Sizing & Store Concierge Sandbox</span>
+          <span id="brand-sub" class="text-[10px] md:text-[11px] uppercase tracking-widest text-[#8A99B5] mt-0.5 block">AI Sales, Sizing & Support Concierge</span>
         </div>
       </a>
 
-      <!-- Меню с ровным и предсказуемым переключением (Порядок соответствует странице) -->
+      <!-- Меню с ровным и предсказуемым переключением -->
       <nav class="hidden lg:flex nav-pill-container" id="main-nav">
         <div id="nav-indicator"></div>
-        <a href="#shopify-setup" class="nav-link smooth-nav active">60-Sec Setup</a>
+        <a href="#shopify-setup" class="nav-link smooth-nav active">24h Setup</a>
         <a href="#lineup" class="nav-link smooth-nav">Sample Lineup</a>
         <a href="#video-showcase" class="nav-link smooth-nav">Video Demo</a>
         <a href="#ai-concierge" class="nav-link smooth-nav">3D AI Engine</a>
+        <a href="#roi-calculator" class="nav-link smooth-nav">ROI Calculator</a>
         <a href="#pricing" class="nav-link smooth-nav">Pilot & Pricing</a>
       </nav>
 
@@ -283,7 +320,7 @@
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
           <span id="pill-tag">2026 Interactive Sandbox</span>
           <span class="text-[#5B667B]">•</span>
-          <span>CM / US / UK / EU Sizing</span>
+          <span>24/7 Sales, Sizing & WISMO</span>
         </div>
 
         <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight leading-[1.08] text-white">
@@ -294,16 +331,16 @@
         </h1>
 
         <p id="hero-desc" class="text-[#94A3B8] text-lg leading-relaxed max-w-xl">
-          Test our interactive AI Sizing & Sales Concierge below. Type your foot length in cm, compare brand sizing, swipe visual sneaker carousels, or watch the promo walkthrough.
+          Save 40+ hours a month on repetitive customer DMs. Test our AI Sales & Support Concierge below: automate "Where is my order?" lookups, calculate exact fit in seconds, and capture leads directly to Google Sheets.
         </p>
 
         <div class="pt-2 flex flex-wrap items-center gap-4">
           <button onclick="openAIChat()" class="ai-hero-btn px-7 py-4 rounded-xl text-sm font-bold text-white flex items-center gap-3 cursor-pointer">
-            <span>Launch AI Sizing Concierge</span>
+            <span>Launch AI Store Concierge</span>
             <span class="btn-arrow transition-transform duration-200 text-lg leading-none">→</span>
           </button>
-          <a href="#pricing" class="smooth-nav px-5 py-4 rounded-xl bg-[#232934]/80 hover:bg-[#2B3342] border border-[#5B667B]/40 text-xs font-semibold text-[#CBD5E1] transition">
-            View $149 14-Day Pilot & Plans
+          <a href="#roi-calculator" class="smooth-nav px-5 py-4 rounded-xl bg-[#232934]/80 hover:bg-[#2B3342] border border-[#5B667B]/40 text-xs font-semibold text-[#CBD5E1] transition">
+            Calculate Your Store Savings →
           </a>
         </div>
       </div>
@@ -329,7 +366,7 @@
 
     </div>
 
-    <!-- ПОДНЯТАЯ НАВЕРХ ПЛАШКА: LIVE ON YOUR SHOPIFY STORE IN 60 SECONDS (СРАЗУ ПОД HERO!) -->
+    <!-- ПЛАШКА: TURNKEY 24-HOUR SETUP (ЧЕСТНЫЕ СРОКИ) -->
     <div id="shopify-setup" class="mt-14 pt-10 border-t border-[#2B313B]/70 reveal-up">
       <div class="nordic-card rounded-3xl p-6 md:p-8 border border-[#8A99B5]/25 shadow-xl">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 mb-6 border-b border-[#5B667B]/25">
@@ -338,28 +375,28 @@
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
               <span>Plug & Play Shopify Architecture</span>
             </div>
-            <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Live on Your Shopify Store in 60 Seconds</h2>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Custom Built for Your Store in 24 Hours</h2>
           </div>
           <span class="text-xs text-[#94A3B8] bg-[#14171D]/80 border border-[#5B667B]/35 px-4 py-2 rounded-xl self-start md:self-center">
-            ⚡ Zero impact on page load speed • Works with any Shopify theme
+            ⚡ Zero impact on page load speed • 1-line snippet in theme.liquid
           </span>
         </div>
 
         <div class="grid md:grid-cols-3 gap-6">
           <div class="bg-[#14171D]/60 border border-[#5B667B]/25 rounded-2xl p-5">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-emerald-400">STEP 1</span>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-emerald-400">STEP 1 (24H BUILD)</span>
             <h3 class="text-base font-bold text-white mt-3">Custom Catalog & Fit Training</h3>
-            <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">We pre-load your exact footwear models, brand sizing charts (CM/US/UK/EU), and store shipping policies.</p>
+            <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">We pre-load your exact apparel & footwear models, brand sizing charts (CM/US/UK/EU), and store shipping policies within 24 hours.</p>
           </div>
           <div class="bg-[#14171D]/60 border border-[#5B667B]/25 rounded-2xl p-5">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-emerald-400">STEP 2</span>
-            <h3 class="text-base font-bold text-white mt-3">1-Line Shopify Snippet</h3>
-            <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">Paste a single lightweight script into your Shopify <code class="text-[#CBD5E1]">theme.liquid</code>. Takes less than 60 seconds.</p>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-emerald-400">STEP 2 (1-LINE INSTALL)</span>
+            <h3 class="text-base font-bold text-white mt-3">Lightweight Shopify Snippet</h3>
+            <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">Once your custom concierge is ready, simply paste a single line of code into your Shopify <code class="text-[#CBD5E1]">theme.liquid</code>.</p>
           </div>
           <div class="bg-[#14171D]/60 border border-[#5B667B]/25 rounded-2xl p-5">
-            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-emerald-400">STEP 3</span>
-            <h3 class="text-base font-bold text-white mt-3">24/7 Sizing & Lead Capture</h3>
-            <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">Shoppers get instant sizing answers, swipe product cards in chat, and leave verified leads automatically.</p>
+            <span class="text-xs font-bold px-2.5 py-1 rounded bg-[#232934] border border-[#5B667B]/40 text-emerald-400">STEP 3 (AUTO ROI)</span>
+            <h3 class="text-base font-bold text-white mt-3">24/7 Support, Sizing & Leads</h3>
+            <p class="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">Automates 80% of repetitive WISMO & sizing questions, displays product carousels in chat, and saves leads to Google Sheets.</p>
           </div>
         </div>
       </div>
@@ -370,9 +407,9 @@
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
           <span class="text-xs uppercase tracking-widest text-[#8A99B5] font-semibold">Sample Store Inventory</span>
-          <h2 class="text-2xl font-bold text-white mt-1">3 Pre-Loaded Demo Footwear Models</h2>
+          <h2 class="text-2xl font-bold text-white mt-1">3 Pre-Loaded Demo Models</h2>
         </div>
-        <p class="text-xs text-[#8A99B5]">Hover any model to feel the depth • Click to test sizing & reservation in AI Chat</p>
+        <p class="text-xs text-[#8A99B5]">Hover any item to feel the depth • Click to test sizing & reservation in AI Chat</p>
       </div>
 
       <div class="grid md:grid-cols-3 gap-7">
@@ -418,10 +455,10 @@
   <!-- СЕКЦИЯ ВИТРИНЫ ПРОМО-РОЛИКА (VIDEO WALKTHROUGH) -->
   <section id="video-showcase" class="max-w-5xl mx-auto px-6 py-10 reveal-up">
     <div class="text-center mb-8">
-      <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">20-Second Action Reel</span>
+      <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Live Walkthrough Reel</span>
       <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-1.5">See the AI Concierge in Action</h2>
       <p class="text-[#94A3B8] text-sm md:text-base max-w-2xl mx-auto mt-2">
-        Watch how shoppers convert their exact foot length in centimeters to EU/US sizes, swipe product cards inside the chat, and check order statuses in real time.
+        Watch how shoppers get instant sizing answers, swipe product cards inside the chat, and check order statuses 24/7 without waiting on human support.
       </p>
     </div>
 
@@ -491,7 +528,7 @@
               Open Live AI Concierge
             </span>
             <span class="block text-xs md:text-sm text-[#CBD5E1]/90 mt-0.5">
-              Click to test • Foot CM Sizing, Product Carousels & Order Lookup
+              Click to test • Sizing Logic, Product Carousels & Order Lookup
             </span>
           </div>
           <span class="btn-arrow text-2xl text-white font-bold transition-transform duration-200 ml-2">
@@ -523,13 +560,137 @@
     </div>
   </section>
 
+  <!-- НОВАЯ СЕКЦИЯ: ИНТЕРАКТИВНЫЙ КАЛЬКУЛЯТОР ЭКОНОМИИ ВРЕМЕНИ И ДЕНЕГ (ROI CALCULATOR) -->
+  <section id="roi-calculator" class="max-w-5xl mx-auto px-6 py-10 reveal-up">
+    <div class="text-center mb-8">
+      <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Store Owner ROI & Time-Saved Estimator</span>
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-1.5">How Much Time & Margin Are You Losing?</h2>
+      <p class="text-[#94A3B8] text-sm md:text-base max-w-2xl mx-auto mt-2">
+        80% of daily DMs and emails are the same 5 questions about sizing, stock, and order tracking. Adjust the sliders below to see what automating them saves your brand every month.
+      </p>
+    </div>
+
+    <div class="nordic-card rounded-3xl p-6 md:p-10 shadow-2xl border border-[#8A99B5]/30">
+      <div class="grid md:grid-cols-12 gap-8 items-center">
+
+        <!-- Левая часть: 3 интерактивных ползунка -->
+        <div class="md:col-span-7 space-y-6">
+          
+          <!-- Ползунок 1: Заказы в месяц -->
+          <div class="bg-[#14171D]/70 border border-[#5B667B]/30 rounded-2xl p-4">
+            <div class="flex justify-between items-center mb-2">
+              <label for="calc-orders" class="text-xs md:text-sm font-bold text-[#CBD5E1]">Monthly Store Orders</label>
+              <span id="val-orders" class="text-base md:text-lg font-extrabold text-emerald-400 bg-[#232934] px-3 py-0.5 rounded-lg border border-emerald-400/30">400 orders</span>
+            </div>
+            <input id="calc-orders" type="range" min="50" max="2500" step="50" value="400" class="nordic-slider">
+            <div class="flex justify-between text-[10px] text-[#6C7A93] mt-1.5">
+              <span>50 / mo</span>
+              <span>1,200 / mo</span>
+              <span>2,500+ / mo</span>
+            </div>
+          </div>
+
+          <!-- Ползунок 2: Вопросы от клиентов в день -->
+          <div class="bg-[#14171D]/70 border border-[#5B667B]/30 rounded-2xl p-4">
+            <div class="flex justify-between items-center mb-2">
+              <label for="calc-questions" class="text-xs md:text-sm font-bold text-[#CBD5E1]">Daily Customer Questions (DMs, Email, Sizing, WISMO)</label>
+              <span id="val-questions" class="text-base md:text-lg font-extrabold text-emerald-400 bg-[#232934] px-3 py-0.5 rounded-lg border border-emerald-400/30">18 / day</span>
+            </div>
+            <input id="calc-questions" type="range" min="5" max="100" step="1" value="18" class="nordic-slider">
+            <div class="flex justify-between text-[10px] text-[#6C7A93] mt-1.5">
+              <span>5 / day (~6 min each)</span>
+              <span>50 / day</span>
+              <span>100 / day</span>
+            </div>
+          </div>
+
+          <!-- Ползунок 3: Стоимость часа владельца / саппорта -->
+          <div class="bg-[#14171D]/70 border border-[#5B667B]/30 rounded-2xl p-4">
+            <div class="flex justify-between items-center mb-2">
+              <label for="calc-rate" class="text-xs md:text-sm font-bold text-[#CBD5E1]">Your Hourly Time Value (Owner / Support Team)</label>
+              <span id="val-rate" class="text-base md:text-lg font-extrabold text-emerald-400 bg-[#232934] px-3 py-0.5 rounded-lg border border-emerald-400/30">$100 / hr</span>
+            </div>
+            <input id="calc-rate" type="range" min="25" max="250" step="5" value="100" class="nordic-slider">
+            <div class="flex justify-between text-[10px] text-[#6C7A93] mt-1.5">
+              <span>$25 / hr (Support VA)</span>
+              <span>$100 / hr (Founder)</span>
+              <span>$250 / hr (Exec)</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Правая часть: Табло результатов в реальном времени -->
+        <div class="md:col-span-5 bg-gradient-to-b from-[#1E2532] to-[#14171D] border border-emerald-400/40 rounded-3xl p-6 md:p-7 shadow-2xl space-y-5 relative overflow-hidden">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold uppercase tracking-wider">
+            <span>⚡ Estimated Monthly Impact</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div class="bg-[#14171D]/85 border border-[#5B667B]/30 rounded-2xl p-3.5">
+              <span class="text-[11px] text-[#8A99B5] block">⏰ Time Saved</span>
+              <span id="res-hours" class="text-2xl md:text-3xl font-extrabold text-white mt-0.5 block">43 hrs<span class="text-xs font-normal text-[#8A99B5]">/mo</span></span>
+              <span class="text-[10px] text-emerald-400">80% auto-resolved</span>
+            </div>
+            <div class="bg-[#14171D]/85 border border-[#5B667B]/30 rounded-2xl p-3.5">
+              <span class="text-[11px] text-[#8A99B5] block">📦 Saved on Returns</span>
+              <span id="res-returns" class="text-2xl md:text-3xl font-extrabold text-white mt-0.5 block">$1,260<span class="text-xs font-normal text-[#8A99B5]">/mo</span></span>
+              <span class="text-[10px] text-[#94A3B8]">Fewer wrong sizes</span>
+            </div>
+          </div>
+
+          <div class="bg-emerald-500/10 border border-emerald-400/40 rounded-2xl p-4">
+            <span class="text-xs uppercase tracking-wider text-emerald-300 font-bold block">💰 Total Monthly Value Saved</span>
+            <div class="flex items-baseline justify-between mt-1">
+              <span id="res-total" class="text-3xl md:text-4xl font-extrabold text-white">$5,560<span class="text-sm font-normal text-[#CBD5E1]"> / month</span></span>
+            </div>
+            <p id="res-payback" class="text-xs text-emerald-300 font-semibold mt-2">
+              🤖 A $499 Pro setup pays for itself in just 3 days.
+            </p>
+          </div>
+
+          <div class="pt-1">
+            <a href="#pricing" class="smooth-nav ai-hero-btn w-full py-3.5 rounded-xl text-xs md:text-sm font-bold text-white flex items-center justify-center gap-2">
+              <span>Lock In Your 14-Day Pilot ($149)</span>
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Сравнительная плашка: Без бота vs С ботом -->
+      <div class="mt-8 pt-6 border-t border-[#5B667B]/25 grid md:grid-cols-2 gap-4 text-xs">
+        <div class="bg-[#14171D]/50 border border-red-400/20 rounded-2xl p-4 flex flex-col gap-2">
+          <span class="font-bold text-red-300 uppercase tracking-wider">❌ Your Store Without AI Concierge</span>
+          <div class="grid grid-cols-2 gap-2 text-[#94A3B8] mt-1">
+            <span>• 35–45 hrs/mo lost on DMs</span>
+            <span>• Up to 30% sizing return rate</span>
+            <span>• Abandoned midnight carts</span>
+            <span>• Uncaptured visitor emails</span>
+          </div>
+        </div>
+        <div class="bg-[#14171D]/50 border border-emerald-400/30 rounded-2xl p-4 flex flex-col gap-2">
+          <span class="font-bold text-emerald-300 uppercase tracking-wider">✅ Your Store With ECM AI Concierge</span>
+          <div class="grid grid-cols-2 gap-2 text-[#CBD5E1] mt-1">
+            <span>• 80% of tickets automated 24/7</span>
+            <span>• Instant CM/US/EU size matching</span>
+            <span>• Visual product carousels in chat</span>
+            <span>• Auto-saved leads in Google Sheets</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- СЕКЦИЯ ТАРИФОВ: 14-ДНЕВНЫЙ ПАЙЛОТ ($149) И 2 ПЛАШКИ ($499 / $999) -->
-  <section id="pricing" class="max-w-5xl mx-auto px-6 py-12 pb-20 reveal-up">
+  <section id="pricing" class="max-w-5xl mx-auto px-6 py-12 pb-16 reveal-up">
     <div class="text-center mb-10">
       <span class="text-xs uppercase tracking-widest text-emerald-400 font-semibold">Transparent B2B Pricing</span>
       <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-1.5">Start with a 14-Day Pilot or Full Store Setup</h2>
       <p class="text-[#94A3B8] text-sm md:text-base max-w-2xl mx-auto mt-2">
-        Built specifically for independent Shopify footwear & streetwear boutiques. Deployed in 24 hours with zero impact on site speed.
+        Built specifically for independent Shopify apparel, footwear & streetwear boutiques. Custom configured in 24 hours with zero impact on site speed.
       </p>
     </div>
 
@@ -544,7 +705,7 @@
           </div>
           <h3 class="text-2xl font-extrabold text-white">14-Day Paid Pilot — $149 <span class="text-sm font-normal text-[#8A99B5]">(One-Time for 14 Days)</span></h3>
           <p class="text-xs md:text-sm text-[#94A3B8] leading-relaxed">
-            Want to see real conversion numbers on your store before committing to a full package? We wire up the AI Concierge with your <strong class="text-white">top 25 footwear models</strong>, exact brand sizing charts (CM/US/UK/EU), and store policies for a <strong class="text-white">14-day live test</strong> on your Shopify theme.
+            Want to see real time-savings and conversion numbers on your store before committing to a full package? We wire up the AI Concierge with your <strong class="text-white">top 25 models</strong>, exact brand sizing charts, and store policies within 24 hours for a <strong class="text-white">14-day live test</strong> on your Shopify theme.
           </p>
         </div>
         <div class="shrink-0 flex flex-col sm:flex-row md:flex-col items-stretch sm:items-center md:items-end gap-3">
@@ -580,7 +741,7 @@
             <div class="mt-3 p-3 rounded-xl bg-[#14171D]/80 border border-[#5B667B]/30">
               <span class="text-xs font-bold text-emerald-400 block">+ $99 / month ongoing support & hosting</span>
               <span class="text-[11px] text-[#94A3B8] mt-0.5 block">
-                Includes monthly catalog sync, new sneaker drops & all AI message credits.
+                Includes monthly catalog sync, new seasonal drops & all AI message credits.
               </span>
             </div>
           </div>
@@ -588,19 +749,19 @@
           <ul class="mt-6 space-y-3.5 text-xs md:text-sm text-[#CBD5E1]">
             <li class="flex items-start gap-3">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong class="text-white">Full Footwear Catalog Sync:</strong> Interactive product cards & visual carousels inside the chat.</span>
+              <span><strong class="text-white">Full Catalog Sync (24h Turnkey):</strong> Interactive product cards & visual carousels inside the chat.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong class="text-white">Exact CM / US / UK / EU Sizing Engine:</strong> Custom trained on your brands' fit (true-to-size vs half-size up).</span>
+              <span><strong class="text-white">Exact CM / US / UK / EU Sizing Engine:</strong> Custom trained on your brands' fit (true-to-size, oversized, or half-size up).</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong class="text-white">Automated Lead Capture:</strong> Collects customer name, email, shoe size & model directly to Google Sheets.</span>
+              <span><strong class="text-white">Automated Lead Capture:</strong> Collects customer name, email, size & item interest directly to Google Sheets.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong class="text-white">Monthly Catalog & Drop Updates ($99/mo):</strong> We add every new footwear release & restock for you monthly.</span>
+              <span><strong class="text-white">Monthly Catalog & Drop Updates ($99/mo):</strong> We add every new release & restock for you monthly.</span>
             </li>
           </ul>
         </div>
@@ -641,7 +802,7 @@
           <ul class="mt-6 space-y-3.5 text-xs md:text-sm text-[#CBD5E1]">
             <li class="flex items-start gap-3">
               <span class="text-emerald-400 font-bold">✓</span>
-              <span><strong class="text-white">Everything in Pro ($499) + Multi-Brand Fit Logic:</strong> Deep comparison across all sneaker & running silhouettes.</span>
+              <span><strong class="text-white">Everything in Pro ($499) + Multi-Brand Fit Logic:</strong> Deep comparison across all apparel & footwear silhouettes.</span>
             </li>
             <li class="flex items-start gap-3">
               <span class="text-emerald-400 font-bold">✓</span>
@@ -666,12 +827,38 @@
       </div>
 
     </div>
+
+    <!-- БЛОК БЫСТРОЙ СВЯЗИ ВНИЗУ ТАРИФОВ (EMAIL / IG / X) -->
+    <div class="mt-10 nordic-card rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4 border border-[#5B667B]/30">
+      <div>
+        <h4 class="text-base font-bold text-white">Have a quick question or want a custom preview for your store?</h4>
+        <p class="text-xs text-[#94A3B8] mt-0.5">Reach out directly via Email, Instagram DM, or X — we respond within a few hours.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="mailto:ecm.system@proton.me" class="px-4 py-2.5 rounded-xl bg-[#232934] hover:bg-[#323B4B] border border-[#5B667B]/40 text-xs font-semibold text-white transition">
+          ✉️ ecm.system@proton.me
+        </a>
+        <a href="https://www.instagram.com/ecm.systems/" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-[#232934] hover:bg-[#323B4B] border border-[#5B667B]/40 text-xs font-semibold text-white transition">
+          📸 IG: @ecm.systems
+        </a>
+        <a href="https://x.com/ecmsystem" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-[#232934] hover:bg-[#323B4B] border border-[#5B667B]/40 text-xs font-semibold text-white transition">
+          𝕏 @ecmsystem
+        </a>
+      </div>
+    </div>
   </section>
 
-  <!-- ФУТЕР С БРЕНДИНГОМ ECM SYSTEMS -->
-  <footer class="border-t border-[#2B313B]/80 py-8 text-center text-xs text-[#6C7A93] space-y-1">
-    <p class="text-[#94A3B8] font-semibold">Built by ECM Systems — Custom AI Sizing & Sales Concierges for Shopify</p>
-    <p>Contact: ecm.system@proton.me • max.ecommerce@outlook.com</p>
+  <!-- ФУТЕР С БРЕНДИНГОМ И КОНТАКТАМИ ECM SYSTEMS -->
+  <footer class="border-t border-[#2B313B]/80 py-10 text-center text-xs text-[#6C7A93] space-y-3">
+    <p class="text-[#94A3B8] font-semibold text-sm">Built by ECM Systems — Custom AI Sales, Sizing & Support Concierges for Shopify</p>
+    <div class="flex flex-wrap justify-center items-center gap-6 text-[#CBD5E1] font-medium">
+      <a href="mailto:ecm.system@proton.me" class="hover:text-emerald-400 transition">Email: ecm.system@proton.me</a>
+      <span class="text-[#5B667B]">•</span>
+      <a href="https://www.instagram.com/ecm.systems/" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition">Instagram: @ecm.systems</a>
+      <span class="text-[#5B667B]">•</span>
+      <a href="https://x.com/ecmsystem" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition">X (Twitter): @ecmsystem</a>
+    </div>
+    <p class="text-[11px] text-[#5B667B] pt-1">© 2026 ECM Systems. Turnkey Shopify AI Automation in 24 Hours.</p>
   </footer>
 
   <!-- СКРИПТЫ -->
@@ -682,17 +869,69 @@
       var store = params.get('store');
       if (store) {
         var cleanStore = store.replace(/[^a-zA-Z0-9 .&-]/g, '');
-        document.getElementById('page-title').innerText = cleanStore + ' — AI Sizing Concierge Preview | ECM Systems';
+        document.getElementById('page-title').innerText = cleanStore + ' — AI Sales & Sizing Concierge Preview | ECM Systems';
         document.getElementById('brand-header').innerText = cleanStore.toUpperCase();
         document.getElementById('brand-sub').innerText = 'Custom AI Concierge Sandbox Preview';
         document.getElementById('pill-tag').innerText = 'Prepared for ' + cleanStore;
-        document.getElementById('hero-title-1').innerText = 'AI Sizing Preview for';
+        document.getElementById('hero-title-1').innerText = 'AI Concierge Preview for';
         document.getElementById('hero-title-2').innerText = cleanStore + '.';
         document.getElementById('cta-heading').innerText = 'Test ' + cleanStore + '\'s AI Concierge Concept';
       }
     })();
 
-    /* 2. ОТКРЫТИЕ ЧАТА VOICEFLOW И ПЛЕЕРА ПРОМО-РОЛИКА */
+    /* 2. ЛОГИКА ИНТЕРАКТИВНОГО КАЛЬКУЛЯТОРА ВРЕМЕНИ И ROI */
+    (function() {
+      var elOrders = document.getElementById('calc-orders');
+      var elQuestions = document.getElementById('calc-questions');
+      var elRate = document.getElementById('calc-rate');
+
+      var valOrders = document.getElementById('val-orders');
+      var valQuestions = document.getElementById('val-questions');
+      var valRate = document.getElementById('val-rate');
+
+      var resHours = document.getElementById('res-hours');
+      var resReturns = document.getElementById('res-returns');
+      var resTotal = document.getElementById('res-total');
+      var resPayback = document.getElementById('res-payback');
+
+      function updateROI() {
+        if (!elOrders || !elQuestions || !elRate) return;
+        var orders = parseInt(elOrders.value, 10);
+        var questionsPerDay = parseInt(elQuestions.value, 10);
+        var hourlyRate = parseInt(elRate.value, 10);
+
+        valOrders.innerText = orders.toLocaleString('en-US') + ' orders';
+        valQuestions.innerText = questionsPerDay + ' / day';
+        valRate.innerText = '$' + hourlyRate + ' / hr';
+
+        // Расчет: в среднем 6 минут на тикет (проверка заказа/замеров), бот автоматизирует 80%
+        var monthlyQuestions = questionsPerDay * 30;
+        var hoursSaved = Math.round((monthlyQuestions * 6 / 60) * 0.8);
+        var laborValueSaved = hoursSaved * hourlyRate;
+
+        // Экономия на предотвращенных возвратах (точные размеры снижают возвраты ~7% от заказов по $45 убытка на логистике/обработке)
+        var returnSavings = Math.round(orders * 0.07 * 45);
+        var totalMonthlyValue = laborValueSaved + returnSavings;
+
+        // За сколько дней окупается настройка Pro ($499)
+        var dailySavings = totalMonthlyValue / 30;
+        var paybackDays = Math.max(1, Math.round(499 / Math.max(dailySavings, 1)));
+
+        resHours.innerHTML = hoursSaved + ' hrs<span class="text-xs font-normal text-[#8A99B5]">/mo</span>';
+        resReturns.innerHTML = '$' + returnSavings.toLocaleString('en-US') + '<span class="text-xs font-normal text-[#8A99B5]">/mo</span>';
+        resTotal.innerHTML = '$' + totalMonthlyValue.toLocaleString('en-US') + '<span class="text-sm font-normal text-[#CBD5E1]"> / month</span>';
+        resPayback.innerText = '🤖 A $499 Pro setup pays for itself in just ' + paybackDays + (paybackDays === 1 ? ' day.' : ' days.');
+      }
+
+      if (elOrders && elQuestions && elRate) {
+        elOrders.addEventListener('input', updateROI);
+        elQuestions.addEventListener('input', updateROI);
+        elRate.addEventListener('input', updateROI);
+        updateROI();
+      }
+    })();
+
+    /* 3. ОТКРЫТИЕ ЧАТА VOICEFLOW И ПЛЕЕРА ПРОМО-РОЛИКА */
     function openAIChat() {
       if (window.voiceflow && window.voiceflow.chat) {
         window.voiceflow.chat.open();
@@ -731,7 +970,7 @@
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
 
-    /* 3. ПЛАВНОЕ СЛЕДОВАНИЕ СВЕТА ЗА КУРСОРОМ И РЕФЛЕКСИЯ НА КАРТОЧКАХ */
+    /* 4. ПЛАВНОЕ СЛЕДОВАНИЕ СВЕТА ЗА КУРСОРОМ И РЕФЛЕКСИЯ НА КАРТОЧКАХ */
     (function() {
       var ambientGlow = document.getElementById('cursor-ambient-glow');
       var cards = document.querySelectorAll('.nordic-card');
@@ -763,7 +1002,7 @@
       animateAmbientGlow();
     })();
 
-    /* 4. РОВНОЕ МЕНЮ БЕЗ СКАЧКОВ СКОРОСТИ + НАТИВНЫЙ ПЛАВНЫЙ СКРОЛЛ */
+    /* 5. РОВНОЕ МЕНЮ БЕЗ СКАЧКОВ СКОРОСТИ + НАТИВНЫЙ ПЛАВНЫЙ СКРОЛЛ */
     (function() {
       var nav = document.getElementById('main-nav');
       var indicator = document.getElementById('nav-indicator');
@@ -800,7 +1039,6 @@
         nav.addEventListener('mouseleave', function() { moveIndicator(activeLink); });
       }
 
-      // Нативный скролл браузера без конфликта формул ускорения
       document.querySelectorAll('.smooth-nav').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
           var href = this.getAttribute('href');
@@ -814,8 +1052,7 @@
         });
       });
 
-      // Автоматическое переключение активной вкладки при обычном скролле колесиком/тачпадом
-      var sections = ['#shopify-setup', '#lineup', '#video-showcase', '#ai-concierge', '#pricing'];
+      var sections = ['#shopify-setup', '#lineup', '#video-showcase', '#ai-concierge', '#roi-calculator', '#pricing'];
       window.addEventListener('scroll', function() {
         if (isManualScrolling) return;
         var scrollPos = window.scrollY + 180;
@@ -846,7 +1083,7 @@
       });
     })();
 
-    /* 5. ИНТЕРАКТИВНАЯ 3D-МОДЕЛЬ НА THREE.JS */
+    /* 6. ИНТЕРАКТИВНАЯ 3D-МОДЕЛЬ НА THREE.JS */
     (function() {
       var canvas = document.getElementById('nordic-3d-canvas');
       var stage = document.getElementById('core-stage');
