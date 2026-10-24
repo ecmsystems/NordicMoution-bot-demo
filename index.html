@@ -2511,15 +2511,54 @@ if(window.self!==window.top){
       }
     }
 
-(function(d, t) {
+((function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      var ecmLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -480 1800 1800'%3E%3Crect x='-60' y='-480' width='1800' height='1800' rx='900' fill='%2313171E'/%3E%3Cg transform='translate(0 797) scale(.1 -.1)' fill='%23CBD5E1'%3E%3Cpath d='M7865 7924 c-16 -2 -77 -9 -135 -15 -923 -97 -1768 -646 -2284 -1482 -929 -1505 -823 -3860 233 -5185 717 -900 1806 -1332 2941 -1166 879 128 1600 568 2061 1257 152 227 179 292 179 432 0 216 -67 310 -405 567 -618 469 -617 469 -760 489 -211 29 -383 -63 -520 -280 -91 -142 -169 -246 -238 -314 -484 -483 -1234 -465 -1708 42 -558 595 -737 1843 -397 2761 260 703 694 1070 1268 1070 450 0 763 -178 1040 -590 148 -221 280 -298 489 -288 170 9 185 17 673 401 406 318 462 378 512 546 57 194 -3 354 -255 672 -411 520 -1094 926 -1749 1040 -235 41 -753 64 -945 43z M2995 7859 c-873 -76 -1708 -566 -2230 -1309 -839 -1196 -961 -3261 -274 -4655 493 -1003 1365 -1635 2459 -1781 134 -18 3097 -34 3378 -19 l123 7 -136 82 c-578 348 -1071 902 -1382 1554 l-63 132 -768 0 c-422 0 -832 5 -912 10 -473 31 -796 261 -1034 737 -85 170 -176 421 -176 487 l0 21 1250 -3 c1085 -2 1250 0 1250 12 0 8 -9 86 -20 173 -58 468 -53 1004 16 1496 l7 47 -1256 0 -1256 0 25 91 c156 568 463 957 864 1092 186 63 142 61 1108 64 l882 4 94 188 c190 379 376 650 634 922 205 216 554 491 792 623 l65 36 -1670 -1 c-918 -1 -1715 -6 -1770 -10z M9910 7866 c0 -2 46 -32 103 -67 361 -222 664 -497 917 -834 230 -307 307 -558 254 -835 -49 -259 -162 -413 -504 -686 l-175 -139 0 -1279 0 -1279 150 -108 c354 -256 444 -355 525 -578 111 -302 66 -548 -163 -891 -297 -446 -570 -712 -1017 -993 l-124 -78 724 4 c702 3 727 4 805 24 417 111 701 418 803 868 14 61 16 242 21 1468 l6 1397 104 -272 c57 -150 187 -488 287 -751 101 -263 207 -542 234 -619 79 -218 125 -285 254 -370 112 -72 147 -78 490 -78 397 1 439 11 578 150 94 94 102 108 247 500 60 162 158 426 219 585 60 160 156 415 213 568 56 152 106 277 111 277 12 0 10 -1116 -2 -1305 -43 -663 -227 -1106 -625 -1502 -158 -156 -195 -214 -217 -331 -50 -269 196 -538 476 -519 188 12 585 206 849 414 1204 949 1653 3285 1005 5228 -345 1038 -932 1668 -1779 1911 -184 53 -338 15 -462 -115 -168 -175 -171 -366 -11 -615 68 -106 194 -358 209 -418 7 -26 9 -20 -242 -633 -142 -346 -489 -1199 -557 -1369 -11 -28 -14 -23 -81 145 -63 161 -199 493 -497 1214 -66 160 -173 423 -238 586 -182 454 -408 997 -443 1064 -67 127 -190 220 -332 250 -65 14 -2115 24 -2115 11z'/%3E%3C/g%3E%3C/svg%3E";
+
+      var customCSS = [
+        "@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');",
+        /* 1. Делаем внешнюю обертку полностью прозрачной, чтобы сайт был виден */
+        ".vfrc-widget { background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; overflow: visible !important; font-family: 'Satoshi', -apple-system, sans-serif !important; }",
+        /* 2. Стилизуем само всплывающее окно виджета в правом углу */
+        ".vfrc-chat { background: #0D1017 !important; border: 1px solid rgba(138, 153, 181, 0.28) !important; border-radius: 22px !important; box-shadow: 0 28px 70px -12px rgba(0, 0, 0, 0.9) !important; overflow: hidden !important; }",
+        ".vfrc-chat--dialog { background: #0D1017 !important; }",
+        /* 3. Шапка и инфо-блок */
+        ".vfrc-header { background: linear-gradient(180deg, #161A23 0%, #0F1218 100%) !important; border-bottom: 1px solid rgba(138, 153, 181, 0.16) !important; color: #F1F5F9 !important; }",
+        ".vfrc-assistant-info--title { color: #F1F5F9 !important; font-weight: 700 !important; font-size: 18px !important; }",
+        ".vfrc-assistant-info--description { color: #8A99B5 !important; font-size: 13px !important; }",
+        /* 4. Сообщения бота и пользователя */
+        ".vfrc-system-response .vfrc-message { background: #161B24 !important; color: #E2E8F0 !important; border: 1px solid rgba(138, 153, 181, 0.16) !important; border-radius: 16px 16px 16px 4px !important; font-size: 14px !important; line-height: 1.5 !important; }",
+        ".vfrc-user-response .vfrc-message { background: linear-gradient(180deg, #F4F7FB 0%, #CBD5E1 100%) !important; color: #0A0C10 !important; font-weight: 600 !important; border-radius: 16px 16px 4px 16px !important; font-size: 14px !important; }",
+        /* 5. Кнопки быстрых ответов */
+        ".vfrc-button, .vfrc-prompt { background: #13171E !important; color: #CBD5E1 !important; border: 1px solid rgba(138, 153, 181, 0.32) !important; border-radius: 999px !important; font-weight: 500 !important; font-size: 13px !important; transition: all 0.2s ease !important; }",
+        ".vfrc-button:hover, .vfrc-prompt:hover { background: #CBD5E1 !important; color: #0A0C10 !important; border-color: #CBD5E1 !important; }",
+        /* 6. Убираем белое поле ввода и делаем его темным */
+        ".vfrc-chat-input, .vfrc-input-container, .vfrc-chat-input > div, .vfrc-chat-input form { background: #13171E !important; background-color: #13171E !important; border-color: rgba(138, 153, 181, 0.22) !important; color: #F1F5F9 !important; box-shadow: none !important; }",
+        ".vfrc-input, .vfrc-chat-input textarea, .vfrc-chat-input input { background: transparent !important; color: #F1F5F9 !important; font-size: 14px !important; }",
+        ".vfrc-input::placeholder, .vfrc-chat-input textarea::placeholder { color: #64748B !important; }",
+        ".vfrc-chat-input--button, .vfrc-send-button { background: transparent !important; color: #CBD5E1 !important; }",
+        /* 7. Карточки кроссовок в карусели */
+        ".vfrc-card { background: #161B24 !important; border: 1px solid rgba(138, 153, 181, 0.2) !important; border-radius: 16px !important; }",
+        ".vfrc-card--header { color: #F1F5F9 !important; font-weight: 700 !important; }",
+        ".vfrc-card--description { color: #94A3B8 !important; }",
+        /* 8. Лаунчер (круглая кнопка в углу) и футер */
+        ".vfrc-launcher { background: #13171E !important; border: 1px solid rgba(203, 213, 225, 0.35) !important; box-shadow: 0 14px 34px -8px rgba(0, 0, 0, 0.85) !important; }",
+        ".vfrc-launcher:hover { border-color: #CBD5E1 !important; transform: translateY(-2px) !important; }",
+        ".vfrc-footer, .vf-footer { background: #0D1017 !important; color: #475569 !important; }"
+      ].join('\n');
+
       v.onload = function() {
         window.voiceflow.chat.load({
           verify: { projectID: '6acd0e6845bc0ce9b6779bd7' },
           url: 'https://general-runtime.voiceflow.com',
           versionID: 'production',
           assistant: {
-            stylesheet: 'voiceflow-theme.css'
+            title: 'Nordic Motion Concierge',
+            description: 'AI Running Shoe & Sizing Specialist',
+            color: '#5B667B',
+            image: ecmLogo,
+            avatar: ecmLogo,
+            stylesheet: 'data:text/css;charset=utf-8,' + encodeURIComponent(customCSS)
           }
         });
       };
@@ -2527,7 +2566,6 @@ if(window.self!==window.top){
       v.type = "text/javascript";
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
-
     /* 4. Lenis smooth scroll + anchor links + scrollspy */
     (function() {
       var lenis = null;
