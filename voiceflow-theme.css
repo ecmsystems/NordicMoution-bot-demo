@@ -1,142 +1,273 @@
-/* voiceflow-theme.css - стиль чат-виджета Voiceflow под сайт ECM Systems / Nordic Motion
- * Подключение: assistant.stylesheet в window.voiceflow.chat.load({...})
- * Классы взяты из документации Voiceflow (.vfrc-*). Если какой-то элемент не меняется,
- * откройте виджет, нажмите правой кнопкой -> Inspect и поправьте селектор.
- */
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+/* ==========================================================================
+   ECM Systems — Nordic Motion Custom Voiceflow Widget Theme
+   Exact palette & typography match: Clash Display, Satoshi, JetBrains Mono
+   Zero screen-blocking bugs (.vfrc-widget is strictly transparent)
+   ========================================================================== */
 
-/* --- шрифт и общий фон --- */
-.voiceflow-chat,
-.vfrc-widget,
-.vfrc-chat,
-.vfrc-header,
-.vfrc-message,
-.vfrc-chat-input,
-.vfrc-input,
-.vfrc-launcher {
-  font-family: 'Satoshi', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@600&f[]=satoshi@400,500,700&display=swap');
+
+:root {
+  --ecm-bg: #0A0C10;
+  --ecm-bg-elevated: #0F1217;
+  --ecm-surface: #13171E;
+  --ecm-surface-hover: #1B202B;
+  --ecm-line: rgba(138, 153, 181, 0.18);
+  --ecm-line-strong: rgba(203, 213, 225, 0.38);
+  --ecm-steel: #8A99B5;
+  --ecm-ice: #CBD5E1;
+  --ecm-frost: #F1F5F9;
+  --ecm-muted: #94A3B8;
+  --ecm-live: #34D399;
 }
 
-/* --- окно чата --- */
-.vfrc-widget {
-  background: #0E1116 !important;
-  border: 1px solid rgba(138, 153, 181, 0.25) !important;
-  border-radius: 20px !important;
-  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.85) !important;
+/* --------------------------------------------------------------------------
+   1. CRITICAL FIX: Keep outer full-screen wrapper 100% transparent 
+      so the website underneath is never blocked or darkened.
+   -------------------------------------------------------------------------- */
+.vfrc-widget,
+.voiceflow-chat {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. MAIN CHAT WINDOW (Floating Card in bottom-right corner)
+   -------------------------------------------------------------------------- */
+.vfrc-chat {
+  background: linear-gradient(180deg, rgba(19, 23, 30, 0.98) 0%, rgba(10, 12, 16, 0.99) 100%) !important;
+  backdrop-filter: blur(22px) !important;
+  -webkit-backdrop-filter: blur(22px) !important;
+  border: 1px solid rgba(138, 153, 181, 0.26) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 32px 80px -16px rgba(0, 0, 0, 0.92), 0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
   overflow: hidden !important;
 }
-.vfrc-chat,
-.vfrc-chat--dialog {
-  background: #0E1116 !important;
-}
 
-/* --- шапка --- */
-.vfrc-header {
-  background: linear-gradient(180deg, #171B23 0%, #12151B 100%) !important;
-  border-bottom: 1px solid rgba(138, 153, 181, 0.18) !important;
-  color: #F1F5F9 !important;
-}
-.vfrc-assistant-info--title {
-  color: #F1F5F9 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.01em !important;
-}
-.vfrc-assistant-info--description {
-  color: #8A99B5 !important;
-  font-size: 12px !important;
-}
-
-/* --- сообщения бота --- */
-.vfrc-system-response .vfrc-message {
-  background: #1B2029 !important;
-  color: #E2E8F0 !important;
-  border: 1px solid rgba(138, 153, 181, 0.16) !important;
-  border-radius: 14px 14px 14px 4px !important;
-  line-height: 1.5 !important;
-}
-
-/* --- сообщения клиента --- */
-.vfrc-user-response .vfrc-message {
-  background: #CBD5E1 !important;
-  color: #0E1116 !important;
-  border-radius: 14px 14px 4px 14px !important;
-  font-weight: 500 !important;
-}
-
-/* --- кнопки быстрых ответов --- */
-.vfrc-button {
+.vfrc-chat--dialog,
+.vfrc-chat--session {
   background: transparent !important;
-  color: #CBD5E1 !important;
-  border: 1px solid rgba(138, 153, 181, 0.4) !important;
-  border-radius: 999px !important;
-  font-weight: 500 !important;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
 }
-.vfrc-button:hover {
-  background: rgba(138, 153, 181, 0.14) !important;
-  border-color: #CBD5E1 !important;
+
+/* --------------------------------------------------------------------------
+   3. TOP HEADER BAR (Matches site's glass navbar)
+   -------------------------------------------------------------------------- */
+.vfrc-header {
+  background: linear-gradient(180deg, rgba(22, 26, 35, 0.95) 0%, rgba(15, 18, 23, 0.95) 100%) !important;
+  border-bottom: 1px solid var(--ecm-line) !important;
+  padding: 14px 18px !important;
+  color: var(--ecm-frost) !important;
+}
+
+.vfrc-header--title,
+.vfrc-assistant-info--title {
+  font-family: 'Clash Display', 'Satoshi', sans-serif !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  font-size: 16px !important;
+}
+
+.vfrc-assistant-info--description {
+  color: var(--ecm-steel) !important;
+  font-size: 12.5px !important;
+  line-height: 1.4 !important;
+}
+
+.vfrc-header--button,
+.vfrc-icon {
+  color: var(--ecm-ice) !important;
+  opacity: 0.8 !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.vfrc-header--button:hover {
+  opacity: 1 !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. ASSISTANT & USER MESSAGE BUBBLES (Matches Hero floating bubbles)
+   -------------------------------------------------------------------------- */
+/* Bot messages: Dark slate glass card with subtle border */
+.vfrc-system-response .vfrc-message,
+.vfrc-message--assistant {
+  background: #141821 !important;
+  color: var(--ecm-frost) !important;
+  border: 1px solid rgba(138, 153, 181, 0.18) !important;
+  border-radius: 18px 18px 18px 4px !important;
+  font-size: 14px !important;
+  line-height: 1.55 !important;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* User messages: Brushed steel-ice gradient like site's primary buttons */
+.vfrc-user-response .vfrc-message,
+.vfrc-message--user {
+  background: linear-gradient(180deg, #F4F7FB 0%, #CBD5E1 100%) !important;
+  color: #0A0C10 !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 18px 18px 4px 18px !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  box-shadow: 0 10px 28px -10px rgba(203, 213, 225, 0.4) !important;
+}
+
+.vfrc-timestamp {
+  color: var(--ecm-steel) !important;
+  font-size: 11px !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. QUICK REPLY PILL BUTTONS (Show carousel / CM to EU / Order #1024)
+   -------------------------------------------------------------------------- */
+.vfrc-button,
+.vfrc-prompt,
+.vfrc-system-response--actions button {
+  background: rgba(19, 23, 30, 0.9) !important;
+  color: var(--ecm-ice) !important;
+  border: 1px solid rgba(138, 153, 181, 0.32) !important;
+  border-radius: 999px !important;
+  padding: 8px 15px !important;
+  font-family: 'Satoshi', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  box-shadow: none !important;
+}
+
+.vfrc-button:hover,
+.vfrc-prompt:hover,
+.vfrc-system-response--actions button:hover {
+  background: linear-gradient(180deg, #F4F7FB 0%, #CBD5E1 100%) !important;
+  color: #0A0C10 !important;
+  border-color: #F4F7FB !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 20px -6px rgba(203, 213, 225, 0.35) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. PRODUCT CAROUSEL CARDS INSIDE CHAT
+   -------------------------------------------------------------------------- */
+.vfrc-card {
+  background: #13171E !important;
+  border: 1px solid rgba(138, 153, 181, 0.22) !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: 0 14px 34px -12px rgba(0, 0, 0, 0.7) !important;
+}
+
+.vfrc-card--header {
+  font-family: 'Clash Display', 'Satoshi', sans-serif !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+}
+
+.vfrc-card--description {
+  color: var(--ecm-muted) !important;
+  font-size: 12.5px !important;
+}
+
+.vfrc-carousel--button {
+  background: rgba(15, 18, 23, 0.9) !important;
+  color: var(--ecm-frost) !important;
+  border: 1px solid var(--ecm-line-strong) !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. BOTTOM MESSAGE INPUT BOX (Eliminates default stark white input bar)
+   -------------------------------------------------------------------------- */
+.vfrc-chat-input,
+.vfrc-input-container,
+.vfrc-chat-input > div,
+.vfrc-chat-input form,
+.vfrc-chat-input--container {
+  background: #13171E !important;
+  background-color: #13171E !important;
+  border-color: rgba(138, 153, 181, 0.24) !important;
+  border-radius: 14px !important;
+  color: var(--ecm-frost) !important;
+  box-shadow: none !important;
+}
+
+.vfrc-input,
+.vfrc-chat-input textarea,
+.vfrc-chat-input input {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #F1F5F9 !important;
+  font-size: 14px !important;
+  caret-color: #34D399 !important;
+}
+
+.vfrc-input::placeholder,
+.vfrc-chat-input textarea::placeholder,
+.vfrc-chat-input input::placeholder {
+  color: #64748B !important;
+}
+
+.vfrc-chat-input--button,
+.vfrc-send-button {
+  background: transparent !important;
+  color: var(--ecm-ice) !important;
+}
+
+.vfrc-chat-input--button:hover,
+.vfrc-send-button:hover {
   color: #FFFFFF !important;
 }
 
-/* --- карточки и карусель --- */
-.vfrc-card {
-  background: #1B2029 !important;
-  border: 1px solid rgba(138, 153, 181, 0.18) !important;
-  border-radius: 14px !important;
-  overflow: hidden !important;
-}
-.vfrc-card--header {
-  color: #F1F5F9 !important;
-  font-weight: 700 !important;
-}
-
-/* --- поле ввода --- */
-.vfrc-chat-input {
-  background: #12151B !important;
-  border-top: 1px solid rgba(138, 153, 181, 0.16) !important;
-}
-.vfrc-input {
-  color: #F1F5F9 !important;
-  background: transparent !important;
-}
-.vfrc-input::placeholder {
-  color: #6C7A93 !important;
-}
-
-/* --- подпись Voiceflow (оставляем, только приглушаем) --- */
-.vf-footer {
-  background: #0E1116 !important;
-  color: #6C7A93 !important;
-}
-
-/* --- кнопка запуска чата --- */
+/* --------------------------------------------------------------------------
+   8. FLOATING LAUNCHER BUTTON (Bottom-Right Corner)
+   -------------------------------------------------------------------------- */
 .vfrc-launcher {
-  background: rgba(20, 23, 29, 0.92) !important;
-  color: #F1F5F9 !important;
-  border: 1px solid rgba(138, 153, 181, 0.35) !important;
+  background: linear-gradient(180deg, #161A22 0%, #0D1016 100%) !important;
+  color: var(--ecm-frost) !important;
+  border: 1px solid rgba(203, 213, 225, 0.35) !important;
   border-radius: 999px !important;
-  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.8) !important;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  transition: transform 0.2s ease, border-color 0.2s ease !important;
-}
-.vfrc-launcher:hover {
-  border-color: rgba(203, 213, 225, 0.7) !important;
-  transform: translateY(-2px);
+  box-shadow: 0 14px 40px -8px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
-/* --- тонкий скролл --- */
-.vfrc-chat--dialog::-webkit-scrollbar {
-  width: 6px;
+.vfrc-launcher:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  border-color: rgba(241, 245, 249, 0.75) !important;
+  box-shadow: 0 18px 46px -8px rgba(203, 213, 225, 0.3) !important;
 }
+
+/* --------------------------------------------------------------------------
+   9. FOOTER & SCROLLBAR
+   -------------------------------------------------------------------------- */
+.vfrc-footer,
+.vf-footer,
+.vfrc-watermark {
+  background: transparent !important;
+  color: #475569 !important;
+  font-size: 11px !important;
+  border-top: none !important;
+}
+
+.vfrc-chat--dialog::-webkit-scrollbar {
+  width: 5px;
+}
+
+.vfrc-chat--dialog::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .vfrc-chat--dialog::-webkit-scrollbar-thumb {
-  background: rgba(138, 153, 181, 0.3);
+  background: rgba(138, 153, 181, 0.25);
   border-radius: 999px;
 }
 
-/* --- телефон: на весь экран без скруглений --- */
+/* Mobile responsiveness */
 @media (max-width: 480px) {
-  .vfrc-widget {
+  .vfrc-chat {
     border-radius: 0 !important;
     border: none !important;
   }
