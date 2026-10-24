@@ -1,7 +1,6 @@
 /* ==========================================================================
    ECM Systems — Nordic Motion Custom Voiceflow Widget Theme
-   Exact palette & typography match: Clash Display, Satoshi, JetBrains Mono
-   Zero screen-blocking bugs (.vfrc-widget is strictly transparent)
+   Exact palette & typography match + ECM Logo Override + No Watermark
    ========================================================================== */
 
 @import url('https://api.fontshare.com/v2/css?f[]=clash-display@600&f[]=satoshi@400,500,700&display=swap');
@@ -18,12 +17,10 @@
   --ecm-frost: #F1F5F9;
   --ecm-muted: #94A3B8;
   --ecm-live: #34D399;
+  --ecm-logo-svg: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-160 -580 2000 2000'%3E%3Crect x='-160' y='-580' width='2000' height='2000' rx='1000' fill='%2313171E'/%3E%3Cg transform='translate(0 797) scale(.1 -.1)' fill='%23CBD5E1'%3E%3Cpath d='M7865 7924 c-16 -2 -77 -9 -135 -15 -923 -97 -1768 -646 -2284 -1482 -929 -1505 -823 -3860 233 -5185 717 -900 1806 -1332 2941 -1166 879 128 1600 568 2061 1257 152 227 179 292 179 432 0 216 -67 310 -405 567 -618 469 -617 469 -760 489 -211 29 -383 -63 -520 -280 -91 -142 -169 -246 -238 -314 -484 -483 -1234 -465 -1708 42 -558 595 -737 1843 -397 2761 260 703 694 1070 1268 1070 450 0 763 -178 1040 -590 148 -221 280 -298 489 -288 170 9 185 17 673 401 406 318 462 378 512 546 57 194 -3 354 -255 672 -411 520 -1094 926 -1749 1040 -235 41 -753 64 -945 43z M2995 7859 c-873 -76 -1708 -566 -2230 -1309 -839 -1196 -961 -3261 -274 -4655 493 -1003 1365 -1635 2459 -1781 134 -18 3097 -34 3378 -19 l123 7 -136 82 c-578 348 -1071 902 -1382 1554 l-63 132 -768 0 c-422 0 -832 5 -912 10 -473 31 -796 261 -1034 737 -85 170 -176 421 -176 487 l0 21 1250 -3 c1085 -2 1250 0 1250 12 0 8 -9 86 -20 173 -58 468 -53 1004 16 1496 l7 47 -1256 0 -1256 0 25 91 c156 568 463 957 864 1092 186 63 142 61 1108 64 l882 4 94 188 c190 379 376 650 634 922 205 216 554 491 792 623 l65 36 -1670 -1 c-918 -1 -1715 -6 -1770 -10z M9910 7866 c0 -2 46 -32 103 -67 361 -222 664 -497 917 -834 230 -307 307 -558 254 -835 -49 -259 -162 -413 -504 -686 l-175 -139 0 -1279 0 -1279 150 -108 c354 -256 444 -355 525 -578 111 -302 66 -548 -163 -891 -297 -446 -570 -712 -1017 -993 l-124 -78 724 4 c702 3 727 4 805 24 417 111 701 418 803 868 14 61 16 242 21 1468 l6 1397 104 -272 c57 -150 187 -488 287 -751 101 -263 207 -542 234 -619 79 -218 125 -285 254 -370 112 -72 147 -78 490 -78 397 1 439 11 578 150 94 94 102 108 247 500 60 162 158 426 219 585 60 160 156 415 213 568 56 152 106 277 111 277 12 0 10 -1116 -2 -1305 -43 -663 -227 -1106 -625 -1502 -158 -156 -195 -214 -217 -331 -50 -269 196 -538 476 -519 188 12 585 206 849 414 1204 949 1653 3285 1005 5228 -345 1038 -932 1668 -1779 1911 -184 53 -338 15 -462 -115 -168 -175 -171 -366 -11 -615 68 -106 194 -358 209 -418 7 -26 9 -20 -242 -633 -142 -346 -489 -1199 -557 -1369 -11 -28 -14 -23 -81 145 -63 161 -199 493 -497 1214 -66 160 -173 423 -238 586 -182 454 -408 997 -443 1064 -67 127 -190 220 -332 250 -65 14 -2115 24 -2115 11z'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-/* --------------------------------------------------------------------------
-   1. CRITICAL FIX: Keep outer full-screen wrapper 100% transparent 
-      so the website underneath is never blocked or darkened.
-   -------------------------------------------------------------------------- */
+/* 1. Outer wrapper strictly transparent */
 .vfrc-widget,
 .voiceflow-chat {
   background: transparent !important;
@@ -35,9 +32,7 @@
   font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
-/* --------------------------------------------------------------------------
-   2. MAIN CHAT WINDOW (Floating Card in bottom-right corner)
-   -------------------------------------------------------------------------- */
+/* 2. Main Chat Window */
 .vfrc-chat {
   background: linear-gradient(180deg, rgba(19, 23, 30, 0.98) 0%, rgba(10, 12, 16, 0.99) 100%) !important;
   backdrop-filter: blur(22px) !important;
@@ -53,9 +48,7 @@
   background: transparent !important;
 }
 
-/* --------------------------------------------------------------------------
-   3. TOP HEADER BAR (Matches site's glass navbar)
-   -------------------------------------------------------------------------- */
+/* 3. Top Header Bar */
 .vfrc-header {
   background: linear-gradient(180deg, rgba(22, 26, 35, 0.95) 0%, rgba(15, 18, 23, 0.95) 100%) !important;
   border-bottom: 1px solid var(--ecm-line) !important;
@@ -78,21 +71,7 @@
   line-height: 1.4 !important;
 }
 
-.vfrc-header--button,
-.vfrc-icon {
-  color: var(--ecm-ice) !important;
-  opacity: 0.8 !important;
-  transition: opacity 0.2s ease !important;
-}
-
-.vfrc-header--button:hover {
-  opacity: 1 !important;
-}
-
-/* --------------------------------------------------------------------------
-   4. ASSISTANT & USER MESSAGE BUBBLES (Matches Hero floating bubbles)
-   -------------------------------------------------------------------------- */
-/* Bot messages: Dark slate glass card with subtle border */
+/* 4. Message Bubbles */
 .vfrc-system-response .vfrc-message,
 .vfrc-message--assistant {
   background: #141821 !important;
@@ -104,7 +83,6 @@
   box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.5) !important;
 }
 
-/* User messages: Brushed steel-ice gradient like site's primary buttons */
 .vfrc-user-response .vfrc-message,
 .vfrc-message--user {
   background: linear-gradient(180deg, #F4F7FB 0%, #CBD5E1 100%) !important;
@@ -117,17 +95,11 @@
   box-shadow: 0 10px 28px -10px rgba(203, 213, 225, 0.4) !important;
 }
 
-.vfrc-timestamp {
-  color: var(--ecm-steel) !important;
-  font-size: 11px !important;
-}
-
-/* --------------------------------------------------------------------------
-   5. QUICK REPLY PILL BUTTONS (Show carousel / CM to EU / Order #1024)
-   -------------------------------------------------------------------------- */
+/* 5. Quick Reply Buttons & Start New Chat Button */
 .vfrc-button,
 .vfrc-prompt,
-.vfrc-system-response--actions button {
+.vfrc-system-response--actions button,
+.vfrc-chat--footer button {
   background: rgba(19, 23, 30, 0.9) !important;
   color: var(--ecm-ice) !important;
   border: 1px solid rgba(138, 153, 181, 0.32) !important;
@@ -137,7 +109,6 @@
   font-size: 13px !important;
   font-weight: 500 !important;
   transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1) !important;
-  box-shadow: none !important;
 }
 
 .vfrc-button:hover,
@@ -147,41 +118,27 @@
   color: #0A0C10 !important;
   border-color: #F4F7FB !important;
   transform: translateY(-1px) !important;
-  box-shadow: 0 8px 20px -6px rgba(203, 213, 225, 0.35) !important;
 }
 
-/* --------------------------------------------------------------------------
-   6. PRODUCT CAROUSEL CARDS INSIDE CHAT
-   -------------------------------------------------------------------------- */
+/* 6. Product Cards */
 .vfrc-card {
   background: #13171E !important;
   border: 1px solid rgba(138, 153, 181, 0.22) !important;
   border-radius: 18px !important;
   overflow: hidden !important;
-  box-shadow: 0 14px 34px -12px rgba(0, 0, 0, 0.7) !important;
 }
 
 .vfrc-card--header {
   font-family: 'Clash Display', 'Satoshi', sans-serif !important;
   color: #FFFFFF !important;
   font-weight: 600 !important;
-  font-size: 15px !important;
 }
 
 .vfrc-card--description {
   color: var(--ecm-muted) !important;
-  font-size: 12.5px !important;
 }
 
-.vfrc-carousel--button {
-  background: rgba(15, 18, 23, 0.9) !important;
-  color: var(--ecm-frost) !important;
-  border: 1px solid var(--ecm-line-strong) !important;
-}
-
-/* --------------------------------------------------------------------------
-   7. BOTTOM MESSAGE INPUT BOX (Eliminates default stark white input bar)
-   -------------------------------------------------------------------------- */
+/* 7. Bottom Input Box */
 .vfrc-chat-input,
 .vfrc-input-container,
 .vfrc-chat-input > div,
@@ -199,76 +156,56 @@
 .vfrc-chat-input textarea,
 .vfrc-chat-input input {
   background: transparent !important;
-  background-color: transparent !important;
   color: #F1F5F9 !important;
   font-size: 14px !important;
   caret-color: #34D399 !important;
 }
 
-.vfrc-input::placeholder,
-.vfrc-chat-input textarea::placeholder,
-.vfrc-chat-input input::placeholder {
-  color: #64748B !important;
-}
-
-.vfrc-chat-input--button,
-.vfrc-send-button {
-  background: transparent !important;
-  color: var(--ecm-ice) !important;
-}
-
-.vfrc-chat-input--button:hover,
-.vfrc-send-button:hover {
-  color: #FFFFFF !important;
-}
-
-/* --------------------------------------------------------------------------
-   8. FLOATING LAUNCHER BUTTON (Bottom-Right Corner)
-   -------------------------------------------------------------------------- */
+/* 8. Launcher Button */
 .vfrc-launcher {
   background: linear-gradient(180deg, #161A22 0%, #0D1016 100%) !important;
   color: var(--ecm-frost) !important;
   border: 1px solid rgba(203, 213, 225, 0.35) !important;
   border-radius: 999px !important;
-  box-shadow: 0 14px 40px -8px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-.vfrc-launcher:hover {
-  transform: translateY(-2px) scale(1.03) !important;
-  border-color: rgba(241, 245, 249, 0.75) !important;
-  box-shadow: 0 18px 46px -8px rgba(203, 213, 225, 0.3) !important;
+  box-shadow: 0 14px 40px -8px rgba(0, 0, 0, 0.85) !important;
 }
 
 /* --------------------------------------------------------------------------
-   9. FOOTER & SCROLLBAR
+   9. REPLACE VOICEFLOW FLOWER ICON WITH ECM LOGO EVERYWHERE
    -------------------------------------------------------------------------- */
-.vfrc-footer,
+.vfrc-avatar,
+.vfrc-assistant-info--avatar,
+.vfrc-header .vfrc-avatar {
+  background-image: var(--ecm-logo-svg) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-color: #13171E !important;
+  border: 1px solid rgba(203, 213, 225, 0.25) !important;
+  border-radius: 999px !important;
+}
+
+/* Hide default Voiceflow flower img/svg inside avatar containers */
+.vfrc-avatar img,
+.vfrc-avatar svg,
+.vfrc-assistant-info--avatar img,
+.vfrc-assistant-info--avatar svg {
+  opacity: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. COMPLETELY HIDE "Assistant by Voiceflow" WATERMARK
+   -------------------------------------------------------------------------- */
+.vfrc-footer--watermark,
+.vfrc-watermark,
 .vf-footer,
-.vfrc-watermark {
-  background: transparent !important;
-  color: #475569 !important;
-  font-size: 11px !important;
-  border-top: none !important;
-}
-
-.vfrc-chat--dialog::-webkit-scrollbar {
-  width: 5px;
-}
-
-.vfrc-chat--dialog::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.vfrc-chat--dialog::-webkit-scrollbar-thumb {
-  background: rgba(138, 153, 181, 0.25);
-  border-radius: 999px;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 480px) {
-  .vfrc-chat {
-    border-radius: 0 !important;
-    border: none !important;
-  }
+a[href*="voiceflow.com"],
+.vfrc-footer a {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
