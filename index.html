@@ -2511,29 +2511,20 @@ if(window.self!==window.top){
       }
     }
 
-    (function(d, t) {
+(function(d, t) {
       var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
       v.onload = function() {
         window.voiceflow.chat.load({
           verify: { projectID: '6acd0e6845bc0ce9b6779bd7' },
           url: 'https://general-runtime.voiceflow.com',
-          voice: { url: 'https://runtime-api.voiceflow.com' },
+          versionID: 'production',
           assistant: {
-            color: '#5B667B',
-            header: { 
-              title: 'Nordic Motion Concierge',
-              description: 'AI Running Shoe & Sizing Specialist'
-            },
-            launcher: { 
-              type: 'label', 
-              label: 'Talk to AI' 
-            },
-            stylesheet: 'https://ecmsystems.github.io/NordicMoution-bot-demo/voiceflow-theme.css?v=1'
+            stylesheet: 'voiceflow-theme.css'
           }
         });
       };
-      v.src = 'https://cdn.voiceflow.com/widget-next/bundle.mjs';
-      v.type = 'text/javascript';
+      v.src = "https://cdn.voiceflow.com/widget/bundle.mjs";
+      v.type = "text/javascript";
       s.parentNode.insertBefore(v, s);
     })(document, 'script');
 
