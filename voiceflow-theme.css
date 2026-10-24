@@ -1,0 +1,143 @@
+/* voiceflow-theme.css - стиль чат-виджета Voiceflow под сайт ECM Systems / Nordic Motion
+ * Подключение: assistant.stylesheet в window.voiceflow.chat.load({...})
+ * Классы взяты из документации Voiceflow (.vfrc-*). Если какой-то элемент не меняется,
+ * откройте виджет, нажмите правой кнопкой -> Inspect и поправьте селектор.
+ */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap');
+
+/* --- шрифт и общий фон --- */
+.voiceflow-chat,
+.vfrc-widget,
+.vfrc-chat,
+.vfrc-header,
+.vfrc-message,
+.vfrc-chat-input,
+.vfrc-input,
+.vfrc-launcher {
+  font-family: 'Satoshi', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+}
+
+/* --- окно чата --- */
+.vfrc-widget {
+  background: #0E1116 !important;
+  border: 1px solid rgba(138, 153, 181, 0.25) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.85) !important;
+  overflow: hidden !important;
+}
+.vfrc-chat,
+.vfrc-chat--dialog {
+  background: #0E1116 !important;
+}
+
+/* --- шапка --- */
+.vfrc-header {
+  background: linear-gradient(180deg, #171B23 0%, #12151B 100%) !important;
+  border-bottom: 1px solid rgba(138, 153, 181, 0.18) !important;
+  color: #F1F5F9 !important;
+}
+.vfrc-assistant-info--title {
+  color: #F1F5F9 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em !important;
+}
+.vfrc-assistant-info--description {
+  color: #8A99B5 !important;
+  font-size: 12px !important;
+}
+
+/* --- сообщения бота --- */
+.vfrc-system-response .vfrc-message {
+  background: #1B2029 !important;
+  color: #E2E8F0 !important;
+  border: 1px solid rgba(138, 153, 181, 0.16) !important;
+  border-radius: 14px 14px 14px 4px !important;
+  line-height: 1.5 !important;
+}
+
+/* --- сообщения клиента --- */
+.vfrc-user-response .vfrc-message {
+  background: #CBD5E1 !important;
+  color: #0E1116 !important;
+  border-radius: 14px 14px 4px 14px !important;
+  font-weight: 500 !important;
+}
+
+/* --- кнопки быстрых ответов --- */
+.vfrc-button {
+  background: transparent !important;
+  color: #CBD5E1 !important;
+  border: 1px solid rgba(138, 153, 181, 0.4) !important;
+  border-radius: 999px !important;
+  font-weight: 500 !important;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
+}
+.vfrc-button:hover {
+  background: rgba(138, 153, 181, 0.14) !important;
+  border-color: #CBD5E1 !important;
+  color: #FFFFFF !important;
+}
+
+/* --- карточки и карусель --- */
+.vfrc-card {
+  background: #1B2029 !important;
+  border: 1px solid rgba(138, 153, 181, 0.18) !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+}
+.vfrc-card--header {
+  color: #F1F5F9 !important;
+  font-weight: 700 !important;
+}
+
+/* --- поле ввода --- */
+.vfrc-chat-input {
+  background: #12151B !important;
+  border-top: 1px solid rgba(138, 153, 181, 0.16) !important;
+}
+.vfrc-input {
+  color: #F1F5F9 !important;
+  background: transparent !important;
+}
+.vfrc-input::placeholder {
+  color: #6C7A93 !important;
+}
+
+/* --- подпись Voiceflow (оставляем, только приглушаем) --- */
+.vf-footer {
+  background: #0E1116 !important;
+  color: #6C7A93 !important;
+}
+
+/* --- кнопка запуска чата --- */
+.vfrc-launcher {
+  background: rgba(20, 23, 29, 0.92) !important;
+  color: #F1F5F9 !important;
+  border: 1px solid rgba(138, 153, 181, 0.35) !important;
+  border-radius: 999px !important;
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.8) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+.vfrc-launcher:hover {
+  border-color: rgba(203, 213, 225, 0.7) !important;
+  transform: translateY(-2px);
+}
+
+/* --- тонкий скролл --- */
+.vfrc-chat--dialog::-webkit-scrollbar {
+  width: 6px;
+}
+.vfrc-chat--dialog::-webkit-scrollbar-thumb {
+  background: rgba(138, 153, 181, 0.3);
+  border-radius: 999px;
+}
+
+/* --- телефон: на весь экран без скруглений --- */
+@media (max-width: 480px) {
+  .vfrc-widget {
+    border-radius: 0 !important;
+    border: none !important;
+  }
+}
